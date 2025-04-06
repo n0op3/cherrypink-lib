@@ -3,7 +3,6 @@ project "TinyChernoLib"
     language "C++"
     targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
     defines { "SPDLOG_COMPILED_LIB" }
-    links { "GLFW" }
 
     filter "system:linux"
         defines { "_GLFW_X11" }
