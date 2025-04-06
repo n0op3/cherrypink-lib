@@ -5,13 +5,13 @@
 #include "GLFW/glfw3.h"
 #include "spdlog/spdlog.h"
 
-using namespace tiny_cherno;
+namespace tiny_cherno {
 
 void error_callback(int error_code, const char *description) {
     spdlog::error("GLFW error {}:", error_code, description);
 }
 
-InitializationError tiny_cherno::init(WindowParameters &window_parameters) {
+InitializationError init(WindowParameters &window_parameters) {
     spdlog::info("Loading the TinyCherno runtime!");
     glfwSetErrorCallback(error_callback);
 
@@ -52,3 +52,5 @@ InitializationError tiny_cherno::init(WindowParameters &window_parameters) {
 
     return NONE;
 }
+
+} // namespace tiny_cherno
