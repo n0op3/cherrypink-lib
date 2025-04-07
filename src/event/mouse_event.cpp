@@ -3,12 +3,10 @@
 
 namespace tiny_cherno {
 
-MouseEvent::MouseEvent(int x, int y)
+MouseMoveEvent::MouseMoveEvent(double x, double y)
     : x(x), y(y), Event(EventType::MouseEvent) {}
 
-MouseMoveEvent::MouseMoveEvent(int x, int y, int prev_x, int prev_y)
-    : prevX(prev_x), prevY(prev_y), MouseEvent(x, y) {}
-const int MouseMoveEvent::deltaX() { return x - prevX; }
-const int MouseMoveEvent::deltaY() { return y - prevY; }
+MouseButtonEvent::MouseButtonEvent(int button, int action)
+    : button(button), action(action), Event(EventType::MouseEvent) {}
 
 } // namespace tiny_cherno

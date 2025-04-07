@@ -1,4 +1,6 @@
 #pragma once
+
+#include "event/event.hpp"
 #include "rendering/window.hpp"
 
 class GLFWwindow;
@@ -19,6 +21,8 @@ class TinyChernoRuntime {
     TinyChernoRuntime(GLFWwindow *window);
     void Run();
     static TinyChernoRuntime *GetRuntime();
+
+    EventDispatcher event_dispatcher;
 
   private:
     GLFWwindow *m_window;

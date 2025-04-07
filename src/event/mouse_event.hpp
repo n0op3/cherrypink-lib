@@ -4,28 +4,18 @@
 
 namespace tiny_cherno {
 
-class MouseEvent : Event {
+class MouseMoveEvent : public Event {
   public:
-    const int x;
-    const int y;
-
-  protected:
-    MouseEvent(int x, int y);
+    MouseMoveEvent(double x, double y);
+    const double x;
+    const double y;
 };
 
-class MouseMoveEvent : MouseEvent {
+class MouseButtonEvent : public Event {
   public:
-    MouseMoveEvent(int x, int y, int prev_x, int prev_y);
-    const int deltaX();
-    const int deltaY();
-    const int prevX;
-    const int prevY;
-};
-
-class MouseButtonEvent : MouseEvent {
-  public:
-    MouseButtonEvent(int x, int y, int mouse_button, int action);
-    const int mouseButton;
+    MouseButtonEvent(int mouse_button, int action);
+    const double button;
+    const int action;
 };
 
 } // namespace tiny_cherno

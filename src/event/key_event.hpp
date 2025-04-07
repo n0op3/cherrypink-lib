@@ -3,7 +3,7 @@
 #include "event.hpp"
 namespace tiny_cherno {
 
-class KeyEvent : Event {
+class KeyEvent : public Event {
   public:
     KeyEvent(int key, int action, int modifiers);
     const int key;

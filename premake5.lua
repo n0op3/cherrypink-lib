@@ -1,13 +1,13 @@
 workspace "TinyCherno"
-    configurations { "Debug", "Releas" }
+    configurations { "Debug", "Release" }
     location "build"
 
     include "Include.lua"
 
     filter "configurations:Debug"
         defines { "DEBUG" }
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines { "NDEBUG" }
-        optimize "On"
+        optimize "on"

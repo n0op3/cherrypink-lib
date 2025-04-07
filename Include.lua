@@ -1,6 +1,7 @@
 project "TinyChernoLib"
     kind "StaticLib"
     language "C++"
+    staticruntime "on"
     targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
     defines { "SPDLOG_COMPILED_LIB" }
 
@@ -18,3 +19,11 @@ project "TinyChernoLib"
         "lib/glad/include",
         "lib/spdlog/include"
     }
+
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        symbols "on"
+
+    filter "configurations:Release"
+        defines { "NDEBUG" }
+        optimize "on"
