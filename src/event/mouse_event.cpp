@@ -4,9 +4,9 @@
 namespace tiny_cherno {
 
 MouseMoveEvent::MouseMoveEvent(double x, double y)
-    : x(x), y(y), Event(EventType::MouseEvent) {}
+    : Event(EventType::MouseEvent), x(x), y(y) {}
 
 MouseButtonEvent::MouseButtonEvent(int button, int action)
-    : button(button), action(action), Event(EventType::MouseEvent) {}
+    : Event(EventType::MouseEvent), button(button), action(action) {}
 
 } // namespace tiny_cherno

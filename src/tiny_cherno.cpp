@@ -83,7 +83,7 @@ void TinyChernoRuntime::Run() {
 }
 
 TinyChernoRuntime::TinyChernoRuntime(GLFWwindow *window)
-    : m_window(window), event_dispatcher(EventDispatcher()) {
+    : event_dispatcher(EventDispatcher()), m_window(window) {
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_move_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);

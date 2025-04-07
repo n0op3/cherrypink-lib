@@ -27,3 +27,6 @@ project "TinyChernoLib"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "on"
+
+    filter "toolset:clang or gcc"
+        buildoptions { "-Wall", "-Werror" }
