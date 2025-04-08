@@ -5,8 +5,16 @@ project "TinyChernoLib"
     targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
     defines { "SPDLOG_COMPILED_LIB" }
 
+    newoption {
+        trigger = "x11",
+        description = "Enable X11 support"
+    }
+
     filter "system:linux"
-        defines { "_GLFW_X11" }
+        filter { "options:x11" }
+            defines { "_GLFW_X11" }
+        filter {}
+    filter {}
 
     files {
         "src/**",
