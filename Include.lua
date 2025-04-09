@@ -10,7 +10,7 @@ project "GLFW"
     local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
 
     prebuildcommands {
-        "{CHDIR} " .. glfwDir .. "; {MKDIR} build; {CHDIR} build; cmake .. && make"
+        "{CHDIR} " .. glfwDir .. "; {MKDIR} build; {CHDIR} build; cmake ..; make"
     }
 
 project "TinyChernoLib"
