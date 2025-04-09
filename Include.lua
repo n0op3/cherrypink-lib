@@ -1,3 +1,18 @@
+libdirs {
+    "lib/glfw-3.4/build/src"
+}
+
+links { "glfw3" }
+
+project "GLFW"
+    kind "StaticLib"
+    language "C"
+    local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
+
+    prebuildcommands {
+        "{CHDIR} " .. glfwDir .. "; {MKDIR} build; {CHDIR} build; cmake .. && make"
+    }
+
 project "TinyChernoLib"
     kind "StaticLib"
     language "C++"
@@ -5,20 +20,8 @@ project "TinyChernoLib"
     targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
     defines { "SPDLOG_COMPILED_LIB" }
 
-    newoption {
-        trigger = "x11",
-        description = "Enable X11 support"
-    }
-
-    filter "system:linux"
-        filter { "options:x11" }
-            defines { "_GLFW_X11" }
-        filter {}
-    filter {}
-
     files {
         "src/**",
-        "lib/glfw-3.4/src/**",
         "lib/glad/src/**",
         "lib/spdlog/src/**"
     }
