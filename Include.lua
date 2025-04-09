@@ -16,6 +16,7 @@ project "GLFW"
 project "TinyChernoLib"
     kind "StaticLib"
     language "C++"
+    cppdialect "C++20"
     staticruntime "on"
     targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
     defines { "SPDLOG_COMPILED_LIB" }
