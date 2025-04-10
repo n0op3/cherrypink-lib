@@ -3,7 +3,7 @@
 #include "event/event.hpp"
 #include "rendering/window.hpp"
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace tiny_cherno {
 
