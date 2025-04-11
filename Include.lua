@@ -15,8 +15,8 @@ project "glfw3"
 
     -- We need to compile GLFW manually, as it is not a Premake project
     prebuildcommands {
-         "{CHDIR} " .. glfwDir,
-         "cmake -S " .. glfwDir .. " -B build && cmake --build build --config %{cfg.buildcfg} && {COPYFILE} build/src/%{cfg.buildcfg}/* %{prj.location}/bin/%{cfg.buildcfg}" -- We're going to copy the generated lib files to the main project build directory
+        "{CHDIR} " .. glfwDir .. "; {MKDIR} build; {CHDIR} build; cmake ..; cmake --build " .. glfwDir .. "/build;",
+        "{COPYFILE} " .. glfwDir .. "/build/src/*glfw* bin/%{cfg.buildcfg}"
     }
 
 project "TinyChernoLib"
