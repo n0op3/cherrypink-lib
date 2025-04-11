@@ -1,5 +1,7 @@
+local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
+
 libdirs {
-    "lib/glfw-3.4/build/src/%{cfg.buildcfg}"
+    glfwDir .. "/build/src/%{cfg.buildcfg}"
 }
 
 links { "glfw3" }
@@ -11,7 +13,6 @@ filter "system:windows" -- I have no clue why Visual Studio won't compile withou
 project "glfw3"
     kind "StaticLib"
     language "C"
-    local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
 
     -- We need to compile GLFW manually, as it is not a Premake project
     filter "system:windows"
@@ -22,7 +23,7 @@ project "glfw3"
         }
     filter {}
 
-    filter "not system:windows"
+    filter "system:not windows"
         prebuildcommands {
             "cmake -S " .. glfwDir .. " .",
             "cmake --build . --config %{cfg.buildcfg}",
