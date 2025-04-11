@@ -22,4 +22,13 @@ class MouseButtonEvent : public Event {
     const int action;
 };
 
+class MouseScrollEvent : public Event {
+    public:
+        MouseScrollEvent(double xOffset, double yOffset);
+
+    public:
+        const double xOffset;
+        const double yOffset;
+};
+
 } // namespace tiny_cherno

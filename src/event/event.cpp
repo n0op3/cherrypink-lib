@@ -1,6 +1,7 @@
 #include "event.hpp"
 #include "spdlog/spdlog.h"
 #include <cstdio>
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <queue>
@@ -16,11 +17,10 @@ EventDispatcher::EventDispatcher()
     : m_events(std::queue<std::shared_ptr<Event>>()) {}
 
 std::optional<std::shared_ptr<Event>> EventDispatcher::nextEvent() {
-    if (m_events.empty()) {
+    if (m_events.empty())
         return std::nullopt;
-    }
 
-    std::shared_ptr<Event> &e = m_events.front();
+    std::shared_ptr<Event> e = std::move(m_events.front());
     m_events.pop();
     return e;
 }
@@ -33,12 +33,10 @@ void EventDispatcher::ProcessQueue() {
     while (!IsDone()) {
         std::optional<std::shared_ptr<Event>> e = nextEvent();
         if (!e.has_value())
-            break;
-
-        if (m_listeners.find(e->get()->getType()) == m_listeners.end()) {
-            spdlog::info("No listeners for the event.");
             continue;
-        }
+
+        if (m_listeners.find(e->get()->getType()) == m_listeners.end())
+            continue;
 
         for (EventListener listener : m_listeners[e->get()->getType()]) {
             listener(*e->get());
@@ -55,7 +53,7 @@ void EventDispatcher::RegisterListener(EventType type, EventListener listener) {
 }
 
 void EventDispatcher::ClearQueue() {
-    while (!m_events.empty()) {
+    while (!IsDone()) {
         m_events.pop();
     }
 }
