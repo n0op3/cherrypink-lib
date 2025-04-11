@@ -27,7 +27,8 @@ project "glfw3"
         prebuildcommands {
             "cmake -S " .. glfwDir .. " .",
             "cmake --build . --config %{cfg.buildcfg}",
-            "{COPYFILE} src/*glfw* bin/%{cfg.buildcfg}"
+            "{MKDIR} bin/%{cfg.buildcfg}",
+            "{COPYFILE} src/*glfw3* bin/%{cfg.buildcfg}"
         }
     filter {}
 
@@ -62,4 +63,3 @@ project "TinyChernoLib"
 
     filter "toolset:clang or gcc"
         buildoptions { "-Wall", "-Werror" }
-
