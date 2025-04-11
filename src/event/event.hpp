@@ -32,6 +32,7 @@ class EventDispatcher {
   private:
     std::optional<std::shared_ptr<Event>> nextEvent();
 
+  private:
     std::queue<std::shared_ptr<Event>> m_events;
     std::map<EventType, std::vector<EventListener>> m_listeners;
 };
