@@ -1,5 +1,5 @@
 libdirs {
-    "lib/glfw-3.4/build/src"
+    "lib/glfw-3.4/build/src/%{cfg.buildcfg}"
 }
 
 links { "glfw3" }
@@ -8,7 +8,7 @@ filter "system:windows" -- I have no clue why Visual Studio won't compile withou
         buildoptions { "/utf-8" }
         defines { "_UNICODE", "UNICODE" }
 
-project "GLFW"
+project "glfw3"
     kind "StaticLib"
     language "C"
     local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
@@ -16,7 +16,7 @@ project "GLFW"
     -- We need to compile GLFW manually, as it is not a Premake project
     prebuildcommands {
          "{CHDIR} " .. glfwDir,
-         "cmake -S . -B build -A x64 && cmake --build build --config %{cfg.buildcfg}"
+         "cmake -S . -B build -A x64 && cmake --build build --config %{cfg.buildcfg} && {COPYFILE} build/src/%{cfg.buildcfg}/* %{prj.location}/bin/%{cfg.buildcfg}" -- We're going to copy the generated lib files to the main project build directory
     }
 
 project "TinyChernoLib"
@@ -26,7 +26,7 @@ project "TinyChernoLib"
     targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
     defines { "SPDLOG_COMPILED_LIB" }
 
-    dependson { "GLFW" }
+    dependson { "glfw3" }
 
     files {
         "src/**",
@@ -50,3 +50,4 @@ project "TinyChernoLib"
 
     filter "toolset:clang or gcc"
         buildoptions { "-Wall", "-Werror" }
+
