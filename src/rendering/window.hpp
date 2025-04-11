@@ -6,7 +6,7 @@ struct WindowParameters {
     const char *title;
     unsigned int width;
     unsigned int height;
-    bool resizeable;
+    bool resizable;
 };
 
 } // namespace tiny_cherno

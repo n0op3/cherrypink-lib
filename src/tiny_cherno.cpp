@@ -31,7 +31,7 @@ InitializationError init(WindowParameters &window_parameters) {
         return GLFW_FAILED;
     }
 
-    if (!window_parameters.resizeable) {
+    if (!window_parameters.resizable) {
         glfwWindowHint(GLFW_RESIZABLE, false);
     }
 
