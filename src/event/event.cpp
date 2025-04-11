@@ -1,7 +1,5 @@
 #include "event.hpp"
-#include "spdlog/spdlog.h"
 #include <cstdio>
-#include <iostream>
 #include <memory>
 #include <optional>
 #include <queue>
