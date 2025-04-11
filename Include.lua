@@ -14,10 +14,21 @@ project "glfw3"
     local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
 
     -- We need to compile GLFW manually, as it is not a Premake project
-    prebuildcommands {
-        "{CHDIR} " .. glfwDir .. "; {MKDIR} build; {CHDIR} build; cmake ..; cmake --build " .. glfwDir .. "/build;",
-        "{COPYFILE} " .. glfwDir .. "/build/src/*glfw* bin/%{cfg.buildcfg}"
-    }
+    filter "system:windows"
+        prebuildcommands {
+            "cmake -S " .. glfwDir .. " .",
+            "cmake --build . --config %{cfg.buildcfg}",
+            "{COPYFILE} src/%{cfg.buildcfg}/*glfw* bin/%{cfg.buildcfg}"
+        }
+    filter {}
+
+    filter "not system:windows"
+        prebuildcommands {
+            "cmake -S " .. glfwDir .. " .",
+            "cmake --build . --config %{cfg.buildcfg}",
+            "{COPYFILE} src/*glfw* bin/%{cfg.buildcfg}"
+        }
+    filter {}
 
 project "TinyChernoLib"
     kind "StaticLib"
@@ -50,3 +61,4 @@ project "TinyChernoLib"
 
     filter "toolset:clang or gcc"
         buildoptions { "-Wall", "-Werror" }
+
