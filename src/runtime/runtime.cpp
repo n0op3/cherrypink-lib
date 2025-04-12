@@ -31,6 +31,13 @@ TinyChernoRuntime::TinyChernoRuntime(GLFWwindow *window)
         glfwSetScrollCallback(window, [](GLFWwindow *window, double xOffset, double yOffset){
             TinyChernoRuntime::GetRuntime()->eventDispatcher.Dispatch(std::make_shared<MouseScrollEvent>(xOffset, yOffset));
         });
+
+        m_scenes.push_back(Scene());
+        m_currentScene = &m_scenes.front();
+}
+
+Scene *TinyChernoRuntime::CurrentScene() {
+    return m_currentScene;
 }
 
 }
