@@ -14,7 +14,7 @@ namespace tiny_cherno {
 
 static TinyChernoRuntime *s_runtime = nullptr;
 
-InitializationError init(WindowParameters &window_parameters) {
+InitializationError init(WindowParameters &windowParameters) {
     if (s_runtime)
         return NONE;
 
@@ -28,12 +28,12 @@ InitializationError init(WindowParameters &window_parameters) {
         return GLFW_FAILED;
     }
 
-    if (!window_parameters.resizable)
+    if (!windowParameters.resizable)
         glfwWindowHint(GLFW_RESIZABLE, false);
 
     GLFWwindow *window =
-        glfwCreateWindow(window_parameters.width, window_parameters.height,
-                         window_parameters.title, NULL, NULL);
+        glfwCreateWindow(windowParameters.width, windowParameters.height,
+                         windowParameters.title, NULL, NULL);
 
     glfwMakeContextCurrent(window);
 
@@ -57,24 +57,24 @@ void TinyChernoRuntime::Run() {
     spdlog::info("Entering the main loop...");
     while (!glfwWindowShouldClose(m_window)) {
         glfwPollEvents();
-        event_dispatcher.ProcessQueue();
+        eventDispatcher.ProcessQueue();
         glfwSwapBuffers(m_window);
     }
 }
 
 TinyChernoRuntime::TinyChernoRuntime(GLFWwindow *window)
-    : event_dispatcher(EventDispatcher()), m_window(window) {
+    : m_window(window) {
         glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods){
-            TinyChernoRuntime::GetRuntime()->event_dispatcher.Dispatch(std::make_shared<class KeyEvent>(key, action, mods));
+            TinyChernoRuntime::GetRuntime()->eventDispatcher.Dispatch(std::make_shared<class KeyEvent>(key, action, mods));
         });
         glfwSetCursorPosCallback(window, [](GLFWwindow *window, double x, double y){
-            TinyChernoRuntime::GetRuntime()->event_dispatcher.Dispatch(std::make_shared<MouseMoveEvent>(x, y));
+            TinyChernoRuntime::GetRuntime()->eventDispatcher.Dispatch(std::make_shared<MouseMoveEvent>(x, y));
         });
         glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods){
-            TinyChernoRuntime::GetRuntime()->event_dispatcher.Dispatch(std::make_shared<MouseButtonEvent>(button, action));
+            TinyChernoRuntime::GetRuntime()->eventDispatcher.Dispatch(std::make_shared<MouseButtonEvent>(button, action));
         });
         glfwSetScrollCallback(window, [](GLFWwindow *window, double xOffset, double yOffset){
-            TinyChernoRuntime::GetRuntime()->event_dispatcher.Dispatch(std::make_shared<MouseScrollEvent>(xOffset, yOffset));
+            TinyChernoRuntime::GetRuntime()->eventDispatcher.Dispatch(std::make_shared<MouseScrollEvent>(xOffset, yOffset));
         });
 }
 

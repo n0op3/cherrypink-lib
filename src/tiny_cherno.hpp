@@ -13,7 +13,7 @@ enum InitializationError {
     GLAD_FAILED,
 };
 
-InitializationError init(WindowParameters &window_parameters);
+InitializationError init(WindowParameters &windowParameters);
 void run();
 
 class TinyChernoRuntime {
@@ -22,7 +22,8 @@ class TinyChernoRuntime {
     void Run();
     static TinyChernoRuntime *GetRuntime();
 
-    EventDispatcher event_dispatcher;
+  public:
+    EventDispatcher eventDispatcher;
 
   private:
     GLFWwindow *m_window;

@@ -9,8 +9,9 @@ namespace tiny_cherno {
 class Scene {
     public:
         void Update();
+
     public:
-        std::vector<std::shared_ptr<Entity>> Entities;
+        std::vector<std::shared_ptr<Entity>> entities;
 };
 
 }

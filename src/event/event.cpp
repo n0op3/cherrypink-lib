@@ -7,9 +7,7 @@
 
 namespace tiny_cherno {
 
-Event::Event(EventType type) : m_type(type) {};
-
-EventType Event::getType() { return m_type; }
+Event::Event(EventType type) : type(type) {};
 
 EventDispatcher::EventDispatcher()
     : m_events(std::queue<std::shared_ptr<Event>>()) {}
@@ -33,10 +31,10 @@ void EventDispatcher::ProcessQueue() {
         if (!e.has_value())
             continue;
 
-        if (m_listeners.find(e->get()->getType()) == m_listeners.end())
+        if (m_listeners.find(e->get()->type) == m_listeners.end())
             continue;
 
-        for (EventListener listener : m_listeners[e->get()->getType()])
+        for (EventListener listener : m_listeners[e->get()->type])
             listener(*e->get());
     }
 }

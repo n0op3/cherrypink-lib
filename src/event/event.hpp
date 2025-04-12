@@ -13,10 +13,7 @@ enum EventType { WindowEvent, KeyEvent, MouseEvent };
 class Event {
   public:
     Event(EventType type);
-    EventType getType();
-
-  private:
-    const EventType m_type;
+    const EventType type;
 };
 
 using EventListener = bool (*)(Event &event);

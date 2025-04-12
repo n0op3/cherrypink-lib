@@ -8,7 +8,7 @@ namespace tiny_cherno {
 class UUID {
     public:
         UUID();
-        u_int64_t value() const;
+        u_int64_t Value() const;
         friend std::ostream& operator<<(std::ostream& os, const UUID& uuid);
 
     private:
