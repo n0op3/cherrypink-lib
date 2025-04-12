@@ -42,6 +42,7 @@ project "TinyChernoLib"
     }
 
     includedirs {
+        "src",
         "lib/glfw-3.4/include",
         "lib/glad/include",
         "lib/spdlog/include"
