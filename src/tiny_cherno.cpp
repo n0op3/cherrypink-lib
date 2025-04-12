@@ -19,9 +19,8 @@ void error_callback(int error_code, const char *description) {
 static TinyChernoRuntime *s_runtime = nullptr;
 
 InitializationError init(WindowParameters &window_parameters) {
-    if (s_runtime) {
+    if (s_runtime)
         return NONE;
-    }
 
     spdlog::info("Initializing the TinyCherno runtime!");
     glfwSetErrorCallback(error_callback);
@@ -31,9 +30,8 @@ InitializationError init(WindowParameters &window_parameters) {
         return GLFW_FAILED;
     }
 
-    if (!window_parameters.resizable) {
+    if (!window_parameters.resizable)
         glfwWindowHint(GLFW_RESIZABLE, false);
-    }
 
     GLFWwindow *window =
         glfwCreateWindow(window_parameters.width, window_parameters.height,

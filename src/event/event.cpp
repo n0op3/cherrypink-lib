@@ -36,24 +36,22 @@ void EventDispatcher::ProcessQueue() {
         if (m_listeners.find(e->get()->getType()) == m_listeners.end())
             continue;
 
-        for (EventListener listener : m_listeners[e->get()->getType()]) {
+        for (EventListener listener : m_listeners[e->get()->getType()])
             listener(*e->get());
-        }
     }
 }
 
 void EventDispatcher::RegisterListener(EventType type, EventListener listener) {
     auto it = m_listeners.find(type);
-    if (it == m_listeners.end()) {
+    if (it == m_listeners.end())
         m_listeners[type] = std::vector<EventListener>();
-    }
+
     m_listeners[type].push_back(listener);
 }
 
 void EventDispatcher::ClearQueue() {
-    while (!IsDone()) {
+    while (!IsDone())
         m_events.pop();
-    }
 }
 
 bool EventDispatcher::IsDone() { return m_events.empty(); }
