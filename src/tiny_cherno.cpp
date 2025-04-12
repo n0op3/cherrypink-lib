@@ -12,10 +12,6 @@
 
 namespace tiny_cherno {
 
-void error_callback(int error_code, const char *description) {
-    spdlog::error("GLFW error {}: {}", error_code, description);
-}
-
 static TinyChernoRuntime *s_runtime = nullptr;
 
 InitializationError init(WindowParameters &window_parameters) {
@@ -23,7 +19,9 @@ InitializationError init(WindowParameters &window_parameters) {
         return NONE;
 
     spdlog::info("Initializing the TinyCherno runtime!");
-    glfwSetErrorCallback(error_callback);
+    glfwSetErrorCallback([](int errorCode, const char *description) {
+        spdlog::error("GLFW error {}: {}", errorCode, description);}
+    );
 
     if (!glfwInit()) {
         spdlog::critical("Failed to initialize GLFW");
