@@ -1,11 +1,5 @@
 local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
 
-libdirs {
-    glfwDir .. "/build/src/%{cfg.buildcfg}"
-}
-
-links { "glfw3" }
-
 filter "system:windows" -- I have no clue why Visual Studio won't compile without this, frick you, Microsoft
         buildoptions { "/utf-8" }
         defines { "_UNICODE", "UNICODE" }
