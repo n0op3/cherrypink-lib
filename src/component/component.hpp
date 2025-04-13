@@ -12,7 +12,6 @@
 namespace tiny_cherno {
 
 struct ComponentWrapper {
-    virtual ~ComponentWrapper() = default;
     virtual void Process(const UUID& entityUuid, SystemRegistry& registry) = 0;
 };
 
@@ -30,6 +29,12 @@ public:
     template<typename T>
     void AttachComponent(const UUID &uuid, T comp) {
         m_components[std::type_index(typeid(T))][uuid] = std::make_unique<TypedObjectWrapper<T>>(std::move(comp));
+    }
+
+    template<typename T>
+    T* AttachComponent(const UUID &uuid) {
+        m_components[std::type_index(typeid(T))][uuid] = std::make_unique<TypedObjectWrapper<T>>(std::move(T()));
+        return *GetComponent<T>(uuid);
     }
 
     template<typename T>
