@@ -13,6 +13,7 @@ enum InitializationError {
 };
 
 InitializationError init(WindowParameters &windowParameters);
-void run();
+bool is_initialized();
+bool run();
 
 } // namespace tiny_cherno

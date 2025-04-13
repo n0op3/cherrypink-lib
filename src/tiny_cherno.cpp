@@ -43,10 +43,19 @@ InitializationError init(WindowParameters &windowParameters) {
     return NONE;
 }
 
-void run() {
+bool run() {
+    if (!is_initialized()) {
+        spdlog::error("Trying to run, but the runtime was not initialized");
+        return false;
+    }
+
     TinyChernoRuntime::GetRuntime()->Run();
     delete s_runtime;
+    s_runtime = nullptr;
+    return true;
 }
+
+bool is_initialized() { return s_runtime != nullptr; }
 
 TinyChernoRuntime *TinyChernoRuntime::GetRuntime() { return s_runtime; }
 
