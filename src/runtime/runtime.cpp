@@ -3,6 +3,7 @@
 #include "event/mouse_event.hpp"
 #include "event/key_event.hpp"
 #include "spdlog/spdlog.h"
+#include <memory>
 
 namespace tiny_cherno {
 
@@ -13,8 +14,13 @@ void TinyChernoRuntime::Run() {
     while (!glfwWindowShouldClose(m_window)) {
         glfwPollEvents();
         eventDispatcher.ProcessQueue();
+        update();
         glfwSwapBuffers(m_window);
     }
+}
+
+void TinyChernoRuntime::update() {
+    CurrentScene()->componentRegistry.updateComponents();
 }
 
 TinyChernoRuntime::TinyChernoRuntime(GLFWwindow *window)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "component/component.hpp"
 #include "event/event.hpp"
 #include "scene/scene.hpp"
 #include <vector>
@@ -17,6 +18,7 @@ class TinyChernoRuntime {
 
   public:
     EventDispatcher eventDispatcher;
+    SystemRegistry systems;
 
   private:
     void update();
