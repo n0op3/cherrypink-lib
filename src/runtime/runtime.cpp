@@ -20,7 +20,7 @@ void TinyChernoRuntime::Run() {
 }
 
 void TinyChernoRuntime::update() {
-    CurrentScene()->componentRegistry.updateComponents();
+    CurrentScene()->componentRegistry.updateComponents(systems);
 }
 
 TinyChernoRuntime::TinyChernoRuntime(GLFWwindow *window)

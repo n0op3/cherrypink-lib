@@ -73,15 +73,13 @@ public:
         return std::nullopt;
     }
 
-    void updateComponents() {
+    void updateComponents(SystemRegistry &systems) {
         for (auto& [type, entity_map] : m_components) {
             for (auto& [entity, wrapper] : entity_map) {
-                wrapper->Process(entity, m_systems);
+                wrapper->Process(entity, systems);
             }
         }
     }
-
-    SystemRegistry& getRegistry() { return m_systems; }
 };
 
 
