@@ -58,7 +58,7 @@ public:
     }
 
 private:
-    std::unordered_map<std::type_index, std::unordered_map<UUID, std::unique_ptr<ComponentWrapper>>> m_components;
+    std::unordered_map<std::type_index, std::unordered_map<UUID, std::shared_ptr<ComponentWrapper>>> m_components;
     SystemRegistry m_systems;
 };
 
