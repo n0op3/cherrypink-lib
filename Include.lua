@@ -17,7 +17,7 @@ project "TinyChernoLib"
 
     -- We need to compile GLFW manually, as it is not a Premake project
     prebuildcommands {
-        "cmake -S " .. glfwDir .. " .",
+        "cmake -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -S " .. glfwDir .. " .",
         "cmake --build . --config %{cfg.buildcfg}",
     }
 
