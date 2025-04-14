@@ -16,19 +16,19 @@ project "TinyChernoLib"
     defines { "SPDLOG_COMPILED_LIB" }
 
     -- We need to compile GLFW manually, as it is not a Premake project
+    prebuildcommands {
+        "cmake -S " .. glfwDir .. " .",
+        "cmake --build . --config %{cfg.buildcfg}",
+    }
+
     filter "system:windows"
         prebuildcommands {
-            "cmake -S " .. glfwDir .. " .",
-            "cmake --build . --config %{cfg.buildcfg}",
             "{COPYFILE} src/%{cfg.buildcfg}/*glfw* bin/%{cfg.buildcfg}"
         }
     filter {}
 
     filter "system:not windows"
         prebuildcommands {
-            "cmake -S " .. glfwDir .. " .",
-            "cmake --build . --config %{cfg.buildcfg}",
-            "{MKDIR} bin/%{cfg.buildcfg}",
             "{COPYFILE} src/*glfw3* bin/%{cfg.buildcfg}"
         }
     filter {}
