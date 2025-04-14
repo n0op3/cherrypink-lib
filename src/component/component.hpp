@@ -5,7 +5,7 @@
 #include "component/system.hpp"
 #include "util/uuid.hpp"
 #include <memory>
-#include <spdlog/spdlog.h>
+#include <optional>
 #include <typeindex>
 #include <unordered_map>
 
