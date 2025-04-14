@@ -8,6 +8,13 @@ project "glfw3"
     kind "StaticLib"
     language "C"
 
+project "TinyChernoLib"
+    kind "StaticLib"
+    language "C++"
+    cppdialect "C++20"
+    targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
+    defines { "SPDLOG_COMPILED_LIB" }
+
     -- We need to compile GLFW manually, as it is not a Premake project
     filter "system:windows"
         prebuildcommands {
@@ -26,14 +33,7 @@ project "glfw3"
         }
     filter {}
 
-project "TinyChernoLib"
-    kind "StaticLib"
-    language "C++"
-    cppdialect "C++20"
-    targetdir "%{prj.location}/bin/%{cfg.buildcfg}"
-    defines { "SPDLOG_COMPILED_LIB" }
-
-    dependson { "glfw3" }
+    links { "glfw3" }
 
     files {
         "src/**",
