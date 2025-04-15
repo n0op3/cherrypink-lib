@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -16,7 +17,7 @@ class Event {
     const EventType type;
 };
 
-using EventListener = bool (*)(Event &event);
+using EventListener = std::function<bool(Event &event)>;
 class EventDispatcher {
   public:
     EventDispatcher();
