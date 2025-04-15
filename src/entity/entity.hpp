@@ -4,9 +4,8 @@
 
 namespace tiny_cherno {
 
-class Entity {
-    public:
-        const UUID Uuid;
+struct Entity {
+    const UUID Uuid;
 };
 
 }
