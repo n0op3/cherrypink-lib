@@ -28,12 +28,12 @@ class ComponentRegistry {
 public:
     template<typename T>
     void AttachComponent(const UUID &uuid, T comp) {
-        m_components[std::type_index(typeid(T))][uuid] = std::make_unique<TypedObjectWrapper<T>>(std::move(comp));
+        m_components[std::type_index(typeid(T))][uuid] = std::make_shared<TypedObjectWrapper<T>>(std::move(comp));
     }
 
     template<typename T>
     T* AttachComponent(const UUID &uuid) {
-        m_components[std::type_index(typeid(T))][uuid] = std::make_unique<TypedObjectWrapper<T>>(std::move(T()));
+        m_components[std::type_index(typeid(T))][uuid] = std::make_shared<TypedObjectWrapper<T>>(std::move(T()));
         return *GetComponent<T>(uuid);
     }
 
@@ -59,7 +59,6 @@ public:
 
 private:
     std::unordered_map<std::type_index, std::unordered_map<UUID, std::shared_ptr<ComponentWrapper>>> m_components;
-    SystemRegistry m_systems;
 };
 
 
