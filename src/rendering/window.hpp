@@ -26,6 +26,7 @@ namespace tiny_cherno {
             void Show();
             void Hide();
             bool ShouldClose() const;
+            void Close();
             const char* Title() const;
             void SetTitle(const char* title);
             int GetAttribute(int attribute) const;

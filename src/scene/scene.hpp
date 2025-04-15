@@ -12,6 +12,7 @@ class Scene {
     public:
         void SpawnEntity(std::shared_ptr<Entity> entity);
         std::optional<std::shared_ptr<Entity>> GetEntityByUUID(const UUID &uuid);
+        void DespawnEntity(const UUID &uuid);
     public:
         std::unordered_map<UUID, std::shared_ptr<Entity>> entities;
         ComponentRegistry componentRegistry;

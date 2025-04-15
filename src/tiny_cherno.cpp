@@ -86,7 +86,17 @@ namespace tiny_cherno {
             glfwSwapBuffers(s_window->Handle());
         }
 
+        Shutdown();
         return true;
+    }
+
+    void Shutdown() {
+        delete s_window;
+        s_scenes.clear();
+        s_currentScene = nullptr;
+        s_eventDispatcher.Shutdown();
+        s_systems.Shutdown();
+        s_initialized = false;
     }
 
     bool IsInitialized() { return s_initialized; }

@@ -17,6 +17,7 @@ namespace tiny_cherno {
     InitializationError Init(WindowParameters windowParameters);
     bool IsInitialized();
     bool Run();
+    void Shutdown();
     EventDispatcher& Events();
     Scene& CurrentScene();
     SystemRegistry& Systems();

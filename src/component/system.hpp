@@ -30,6 +30,8 @@ public:
         }
     }
 
+    void Shutdown() { m_systems.clear(); }
+
 private:
     std::unordered_map<std::type_index, std::shared_ptr<void>> m_systems;
 };

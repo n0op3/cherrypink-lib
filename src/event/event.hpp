@@ -26,6 +26,7 @@ class EventDispatcher {
     void RegisterListener(EventType type, EventListener listener);
     void ClearQueue();
     bool IsDone();
+    void Shutdown();
 
   private:
     std::optional<std::shared_ptr<Event>> nextEvent();

@@ -16,5 +16,9 @@ namespace tiny_cherno {
         }
         return std::nullopt;
     }
+
+    void Scene::DespawnEntity(const UUID &uuid) {
+        entities.erase(uuid);
+    }
     
 }

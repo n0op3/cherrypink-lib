@@ -54,6 +54,10 @@ namespace tiny_cherno {
         return glfwWindowShouldClose(m_handle);
     }
 
+    void Window::Close() {
+        glfwSetWindowShouldClose(m_handle, true);
+    }
+
     const char* Window::Title() const {
         return glfwGetWindowTitle(m_handle);
     }

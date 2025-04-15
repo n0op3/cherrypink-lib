@@ -54,4 +54,10 @@ void EventDispatcher::ClearQueue() {
 
 bool EventDispatcher::IsDone() { return m_events.empty(); }
 
+void EventDispatcher::Shutdown() {
+    m_listeners.clear();
+    while (!m_events.empty())
+        m_events.pop();
+}
+
 } // namespace tiny_cherno
