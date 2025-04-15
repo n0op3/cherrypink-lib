@@ -1,12 +1,12 @@
-#include "glad/glad.h"
-
 #include "tiny_cherno.hpp"
 #include "event/mouse_event.hpp"
 #include "event/key_event.hpp"
-#include "GLFW/glfw3.h"
 #include "rendering/window.hpp"
+#include "rendering/opengl/context.cpp"
 #include "scene/scene.hpp"
 #include "spdlog/spdlog.h"
+
+#include "GLFW/glfw3.h"
 
 namespace tiny_cherno {
 
@@ -54,12 +54,10 @@ namespace tiny_cherno {
             glfwWindowHint(GLFW_RESIZABLE, false);
 
         s_window = new Window(windowParameters);
-
-        glfwMakeContextCurrent(s_window->Handle());
-
-        if (!gladLoadGL()) {
-            spdlog::critical("Failed to load OpenGL symbols");
-            return GLAD_FAILED;
+        s_window->SetRenderingContext(new OpenGLContext(s_window->Handle()));
+        if (!s_window->Context()->Init()) {
+            spdlog::error("Could not create the rendering context");
+            return RENDERING_ERROR;
         }
 
         registerCallbacks();
@@ -87,7 +85,7 @@ namespace tiny_cherno {
             glfwPollEvents();
             s_eventDispatcher.ProcessQueue();
             update();
-            glfwSwapBuffers(s_window->Handle());
+            s_window->Context()->SwapBuffers();
         }
 
         Shutdown();

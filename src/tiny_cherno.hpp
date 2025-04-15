@@ -12,6 +12,7 @@ namespace tiny_cherno {
         NONE,
         GLFW_FAILED,
         GLAD_FAILED,
+        RENDERING_ERROR
     };
 
     InitializationError Init(WindowParameters windowParameters);

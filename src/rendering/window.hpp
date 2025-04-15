@@ -1,6 +1,8 @@
 #pragma once
 
 #include <utility>
+#include "rendering/context.hpp"
+
 struct GLFWwindow;
 
 namespace tiny_cherno {
@@ -31,9 +33,12 @@ namespace tiny_cherno {
             void SetTitle(const char* title);
             int GetAttribute(int attribute) const;
             void SetAttribute(int attribute, int value);
+            RenderingContext *Context();
+            void SetRenderingContext(RenderingContext *renderingContext);
             GLFWwindow *Handle() const;
         private:
             GLFWwindow *m_handle;
+            RenderingContext *m_renderingContext;
     };
 
 } // namespace tiny_cherno
