@@ -14,7 +14,7 @@ namespace tiny_cherno {
         GLAD_FAILED,
     };
 
-    InitializationError Init(WindowParameters &windowParameters);
+    InitializationError Init(WindowParameters windowParameters);
     bool IsInitialized();
     bool Run();
     EventDispatcher& Events();
