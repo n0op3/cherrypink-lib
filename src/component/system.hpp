@@ -12,7 +12,6 @@ template<typename T>
 class System {
 public:
     virtual void ProcessComponent(const UUID& entityUuid, T& object) = 0;
-    virtual ~System() = default;
 };
 
 class SystemRegistry {
