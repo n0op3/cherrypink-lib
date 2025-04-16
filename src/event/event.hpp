@@ -9,7 +9,13 @@
 
 namespace tiny_cherno {
 
-enum EventType { WindowEvent, KeyEvent, MouseEvent };
+enum EventType { 
+    WINDOW_EVENT,
+    KEY_EVENT,
+    MOUSE_EVENT,
+    UPDATE_EVENT,
+    RENDER_EVENT 
+};
 
 class Event {
   public:

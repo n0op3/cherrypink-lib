@@ -1,6 +1,8 @@
 #include "tiny_cherno.hpp"
 #include "event/mouse_event.hpp"
 #include "event/key_event.hpp"
+#include "event/render_event.hpp"
+#include "event/update_event.hpp"
 #include "rendering/window.hpp"
 #include "rendering/opengl/context.cpp"
 #include "scene/scene.hpp"
@@ -8,6 +10,7 @@
 
 #include "GLFW/glfw3.h"
 #include <chrono>
+#include <memory>
 
 namespace tiny_cherno {
 
@@ -23,7 +26,7 @@ namespace tiny_cherno {
     void registerCallbacks() {
         glfwSetKeyCallback(s_window->Handle(),
             [] (GLFWwindow *window, int key, int scancode, int action, int mods) {
-            s_eventDispatcher.Dispatch(std::make_shared<class KeyEvent>(key, action, mods));
+            s_eventDispatcher.Dispatch(std::make_shared<KeyEvent>(key, action, mods));
         });
         glfwSetCursorPosCallback(s_window->Handle(),
             [] (GLFWwindow *window, double x, double y) {
@@ -91,12 +94,15 @@ namespace tiny_cherno {
             const double secondInMs = 1000;
 
             if (timeSinceLastTick >= secondInMs / s_updateRate) {
+                s_eventDispatcher.Dispatch(std::make_shared<UpdateEvent>());
                 s_eventDispatcher.ProcessQueue();
                 update();
                 lastTick = std::chrono::high_resolution_clock::now();
             }
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
+                double deltaTime = (double) timeSinceLastTick / s_updateRate;
+                s_eventDispatcher.Dispatch(std::make_shared<RenderEvent>(deltaTime));
                 s_window->Update();
                 lastRender = std::chrono::high_resolution_clock::now();
             }

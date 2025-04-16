@@ -4,7 +4,7 @@
 namespace tiny_cherno {
 
 KeyEvent::KeyEvent(int key, int action, int modifiers)
-    : Event(EventType::KeyEvent), key(key), action(action),
+    : Event(EventType::KEY_EVENT), key(key), action(action),
       modifiers(modifiers) {}
 
 }; // namespace tiny_cherno
