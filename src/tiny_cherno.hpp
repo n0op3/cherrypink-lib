@@ -19,6 +19,10 @@ namespace tiny_cherno {
     bool IsInitialized();
     bool Run();
     void Shutdown();
+    int UpdateRate();
+    void SetUpdateRate(unsigned int updateRate);
+    int TargetFPS();
+    void SetTargetFPS(unsigned int fps);
     EventDispatcher &Events();
     Window *GetWindow();
     Scene *CurrentScene();

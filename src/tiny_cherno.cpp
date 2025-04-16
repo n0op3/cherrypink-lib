@@ -7,6 +7,7 @@
 #include "spdlog/spdlog.h"
 
 #include "GLFW/glfw3.h"
+#include <chrono>
 
 namespace tiny_cherno {
 
@@ -16,6 +17,8 @@ namespace tiny_cherno {
     static Scene *s_currentScene;
     static EventDispatcher s_eventDispatcher;
     static SystemRegistry s_systems;
+    static int s_targetFPS = 60;
+    static int s_updateRate = 20;
 
     void registerCallbacks() {
         glfwSetKeyCallback(s_window->Handle(),
@@ -79,10 +82,24 @@ namespace tiny_cherno {
         }
 
         spdlog::info("Entering the main loop...");
+        auto lastTick = std::chrono::high_resolution_clock::now();
+        auto lastRender = std::chrono::high_resolution_clock::now();
         while (!s_window->ShouldClose()) {
-            s_eventDispatcher.ProcessQueue();
-            update();
-            s_window->Update();
+            auto now = std::chrono::high_resolution_clock::now();
+            const long timeSinceLastTick = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTick).count();
+            const long timeSinceLastRender = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastRender).count();
+            const double secondInMs = 1000;
+
+            if (timeSinceLastTick >= secondInMs / s_updateRate) {
+                s_eventDispatcher.ProcessQueue();
+                update();
+                lastTick = std::chrono::high_resolution_clock::now();
+            }
+
+            if (timeSinceLastRender >= secondInMs / s_targetFPS) {
+                s_window->Update();
+                lastRender = std::chrono::high_resolution_clock::now();
+            }
         }
 
         Shutdown();
@@ -97,6 +114,14 @@ namespace tiny_cherno {
         s_systems.Shutdown();
         s_initialized = false;
     }
+
+    void SetUpdateRate(unsigned int updateRate) { s_updateRate = updateRate; }
+
+    void SetTargetFPS(unsigned int fps) { s_targetFPS = fps; }
+
+    int UpdateRate() { return s_updateRate; }
+
+    int TargetFPS() { return s_targetFPS; }
 
     bool IsInitialized() { return s_initialized; }
 

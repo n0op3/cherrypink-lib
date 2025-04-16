@@ -1,7 +1,7 @@
 #pragma once
 
 #include <utility>
-#include "rendering/context.hpp"
+#include "context.hpp"
 
 struct GLFWwindow;
 
