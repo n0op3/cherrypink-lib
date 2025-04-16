@@ -28,12 +28,15 @@ class ComponentRegistry {
 public:
     template<typename T>
     void AttachComponent(const UUID &uuid, T comp) {
-        m_components[std::type_index(typeid(T))][uuid] = std::make_shared<TypedObjectWrapper<T>>(std::move(comp));
+        m_components[std::type_index(typeid(T))][uuid] =
+            std::make_shared<TypedObjectWrapper<T>>(std::move(comp));
     }
 
     template<typename T>
     T* AttachComponent(const UUID &uuid) {
-        m_components[std::type_index(typeid(T))][uuid] = std::make_shared<TypedObjectWrapper<T>>(std::move(T()));
+        m_components[std::type_index(typeid(T))][uuid] =
+            std::make_shared<TypedObjectWrapper<T>>(std::move(T()));
+
         return *GetComponent<T>(uuid);
     }
 
@@ -41,7 +44,9 @@ public:
     std::optional<T*> GetComponent(const UUID &uuid) {
         auto& component_map = m_components[std::type_index(typeid(T))];
         if (auto it = component_map.find(uuid); it != component_map.end()) {
-            TypedObjectWrapper<T>* typed_wrapper = static_cast<TypedObjectWrapper<T>*>(it->second.get());
+            TypedObjectWrapper<T>* typed_wrapper =
+                static_cast<TypedObjectWrapper<T>*>(it->second.get());
+
             if (typed_wrapper) {
                 return &typed_wrapper->component;
             }
@@ -58,7 +63,9 @@ public:
     }
 
 private:
-    std::unordered_map<std::type_index, std::unordered_map<UUID, std::shared_ptr<ComponentWrapper>>> m_components;
+    std::unordered_map
+        <std::type_index,
+            std::unordered_map<UUID, std::shared_ptr<ComponentWrapper>>> m_components;
 };
 
 
