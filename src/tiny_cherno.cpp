@@ -78,14 +78,13 @@ namespace tiny_cherno {
             return false;
         }
 
-        glfwWindowHint(GLFW_VISIBLE, true);
+        s_window->Show();
 
         spdlog::info("Entering the main loop...");
         while (!s_window->ShouldClose()) {
-            glfwPollEvents();
             s_eventDispatcher.ProcessQueue();
             update();
-            s_window->Context()->SwapBuffers();
+            s_window->Update();
         }
 
         Shutdown();

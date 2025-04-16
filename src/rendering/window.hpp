@@ -18,6 +18,7 @@ namespace tiny_cherno {
         public:
             Window(WindowParameters params);
             std::pair<int, int> Size() const;
+            void Update();
             int Width() const;
             int Height() const;
             void SetWidth(unsigned int width);

@@ -8,6 +8,11 @@ namespace tiny_cherno {
         m_handle = glfwCreateWindow(params.width, params.height, params.title, NULL, NULL);
     }
 
+    void Window::Update() {
+        glfwPollEvents();
+        m_renderingContext->SwapBuffers();
+    }
+
     std::pair<int, int> Window::Size() const {
         int width = 0, height = 0;
         glfwGetWindowSize(m_handle, &width, &height);
@@ -43,11 +48,11 @@ namespace tiny_cherno {
     }
 
     void Window::Show() {
-        SetAttribute(GLFW_VISIBLE, true);
+        glfwWindowHint(GLFW_VISIBLE, true);
     }
 
     void Window::Hide() {
-        SetAttribute(GLFW_VISIBLE, false);
+        glfwWindowHint(GLFW_VISIBLE, false);
     }
 
     bool Window::ShouldClose() const {
