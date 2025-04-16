@@ -26,8 +26,6 @@ namespace tiny_cherno {
             bool IsResizable() const;
             void SetResizable(bool resizable);
             bool IsVisible() const;
-            void Show();
-            void Hide();
             bool ShouldClose() const;
             void Close();
             const char* Title() const;

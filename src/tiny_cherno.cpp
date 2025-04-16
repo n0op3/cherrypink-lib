@@ -78,8 +78,6 @@ namespace tiny_cherno {
             return false;
         }
 
-        s_window->Show();
-
         spdlog::info("Entering the main loop...");
         while (!s_window->ShouldClose()) {
             s_eventDispatcher.ProcessQueue();
@@ -102,9 +100,11 @@ namespace tiny_cherno {
 
     bool IsInitialized() { return s_initialized; }
 
+    Window *GetWindow() { return s_window; }
+
     EventDispatcher& Events() { return s_eventDispatcher; }
 
-    Scene& CurrentScene() { return *s_currentScene; }
+    Scene* CurrentScene() { return s_currentScene; }
 
     SystemRegistry& Systems() { return s_systems; }
 

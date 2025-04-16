@@ -19,8 +19,9 @@ namespace tiny_cherno {
     bool IsInitialized();
     bool Run();
     void Shutdown();
-    EventDispatcher& Events();
-    Scene& CurrentScene();
-    SystemRegistry& Systems();
+    EventDispatcher &Events();
+    Window *GetWindow();
+    Scene *CurrentScene();
+    SystemRegistry &Systems();
 
 } // namespace tiny_cherno

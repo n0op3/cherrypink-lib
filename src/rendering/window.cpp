@@ -47,14 +47,6 @@ namespace tiny_cherno {
         return GetAttribute(GLFW_VISIBLE);
     }
 
-    void Window::Show() {
-        glfwWindowHint(GLFW_VISIBLE, true);
-    }
-
-    void Window::Hide() {
-        glfwWindowHint(GLFW_VISIBLE, false);
-    }
-
     bool Window::ShouldClose() const {
         return glfwWindowShouldClose(m_handle);
     }
