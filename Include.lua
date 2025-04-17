@@ -33,19 +33,21 @@ project "TinyChernoLib"
         }
     filter {}
 
-    links { "glfw3" }
+    links { "glfw3", "glm" }
 
     files {
         "src/**",
         "lib/glad/src/**",
-        "lib/spdlog/src/**"
+        "lib/spdlog/src/**",
+        "lib/glm/glm"
     }
 
     includedirs {
         "src",
         "lib/glfw-3.4/include",
         "lib/glad/include",
-        "lib/spdlog/include"
+        "lib/spdlog/include",
+        "lib/glm/glm"
     }
 
     filter "configurations:Debug"
