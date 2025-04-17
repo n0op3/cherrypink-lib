@@ -102,6 +102,7 @@ namespace tiny_cherno {
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
                 double deltaTime = (double) timeSinceLastTick / s_targetFPS;
+                s_window->Context()->Clear();
                 s_eventDispatcher.Dispatch(std::make_shared<RenderEvent>(s_window->Context(), deltaTime));
                 s_window->Update();
                 lastRender = std::chrono::high_resolution_clock::now();
