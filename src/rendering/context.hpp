@@ -10,7 +10,7 @@ namespace tiny_cherno {
     class RenderingContext {
         public:
             RenderingContext(GLFWwindow *window) : m_windowHandle(window) {}
-            virtual ~RenderingContext() = 0;
+            virtual ~RenderingContext() {};
             virtual bool Init() = 0;
             virtual void Clear() = 0;
             virtual void SwapBuffers() = 0;
