@@ -10,6 +10,7 @@ namespace tiny_cherno {
     class OpenGLContext : public RenderingContext {
         public:
             OpenGLContext(GLFWwindow *window) : RenderingContext(window) {}
+            ~OpenGLContext() override {}
         
             bool Init() override;
             void Clear() override;

@@ -15,7 +15,10 @@ namespace tiny_cherno {
     }
 
     void Renderer::Shutdown() {
+        delete m_context;
         delete m_program;
+        m_context = nullptr;
+        m_program = nullptr;
     }
 
 }

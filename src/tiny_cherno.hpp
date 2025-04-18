@@ -18,7 +18,7 @@ namespace tiny_cherno {
     InitializationError Init(WindowParameters windowParameters);
     bool IsInitialized();
     bool Run();
-    void Shutdown();
+    void Stop();
     int UpdateRate();
     void SetUpdateRate(unsigned int updateRate);
     int TargetFPS();

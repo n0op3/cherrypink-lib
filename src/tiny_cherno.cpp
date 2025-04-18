@@ -17,6 +17,7 @@
 namespace tiny_cherno {
 
     static bool s_initialized = false;
+    static bool s_shouldStop = false;
     static Window *s_window;
     static std::vector<Scene> s_scenes(1);
     static Scene *s_currentScene;
@@ -99,6 +100,19 @@ namespace tiny_cherno {
         s_currentScene->componentRegistry.updateComponents(s_systems);
     }
 
+    void shutdown() {
+        s_scenes.clear();
+        s_renderer->Shutdown();
+        s_eventDispatcher.Shutdown();
+        s_systems.Shutdown();
+        s_initialized = false;
+
+        delete s_window;
+        delete s_renderer;
+        s_currentScene = nullptr;
+        s_renderer = nullptr;
+    }
+
     bool Run() {
         if (!IsInitialized()) {
             spdlog::error("Trying to run, but the runtime was not initialized");
@@ -108,7 +122,7 @@ namespace tiny_cherno {
         spdlog::info("Entering the main loop...");
         auto lastTick = std::chrono::high_resolution_clock::now();
         auto lastRender = std::chrono::high_resolution_clock::now();
-        while (!s_window->ShouldClose()) {
+        while (!s_window->ShouldClose() || !s_shouldStop) {
             auto now = std::chrono::high_resolution_clock::now();
             const long timeSinceLastTick = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTick).count();
             const long timeSinceLastRender = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastRender).count();
@@ -131,19 +145,12 @@ namespace tiny_cherno {
             }
         }
 
-        Shutdown();
+        shutdown();
         return true;
     }
 
-    void Shutdown() {
-        delete s_window;
-        delete s_renderer;
-        s_scenes.clear();
-        s_currentScene = nullptr;
-        s_renderer = nullptr;
-        s_eventDispatcher.Shutdown();
-        s_systems.Shutdown();
-        s_initialized = false;
+    void Stop() {
+        s_shouldStop = true;
     }
 
     void SetUpdateRate(unsigned int updateRate) { s_updateRate = updateRate; }
