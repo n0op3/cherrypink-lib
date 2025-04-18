@@ -10,7 +10,6 @@ namespace tiny_cherno {
 
     void Window::Update() {
         glfwPollEvents();
-        m_renderingContext->SwapBuffers();
     }
 
     std::pair<int, int> Window::Size() const {

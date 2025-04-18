@@ -28,6 +28,7 @@ class EventDispatcher {
   public:
     EventDispatcher();
     void Dispatch(std::shared_ptr<Event> e);
+    void DispatchImmediately(std::shared_ptr<Event> e);
     void ProcessQueue();
     void RegisterListener(EventType type, EventListener listener);
     void ClearQueue();
@@ -36,6 +37,7 @@ class EventDispatcher {
 
   private:
     std::optional<std::shared_ptr<Event>> nextEvent();
+    void processEvent(std::shared_ptr<Event> event);
 
   private:
     std::queue<std::shared_ptr<Event>> m_events;

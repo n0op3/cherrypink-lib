@@ -1,7 +1,7 @@
 #include "glad/glad.h"
 
-#include "rendering/context.hpp"
 #include "rendering/mesh.hpp"
+#include "rendering/opengl/opengl.hpp"
 #include "spdlog/spdlog.h"
 
 #include "GLFW/glfw3.h"
@@ -10,11 +10,7 @@
 
 namespace tiny_cherno {
 
-    class OpenGLContext : public RenderingContext {
-        public:
-            OpenGLContext(GLFWwindow *window) : RenderingContext(window) {}
-
-        bool Init() override {
+        bool OpenGLContext::Init() {
             glfwMakeContextCurrent(m_windowHandle);
             if (!gladLoadGL()) {
                 spdlog::critical("Failed to initialize OpenGL");
@@ -23,17 +19,16 @@ namespace tiny_cherno {
             return true;
         }
 
-        void Clear() override {
-            glClearColor(1, 1, 1, 1);
+        void OpenGLContext::Clear() {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
-        void SwapBuffers() override {
+        void OpenGLContext::SwapBuffers() {
             glfwSwapBuffers(m_windowHandle);
         }
 
-        Mesh CreateMesh(const std::vector<float> &&vertices, const std::vector<int> &&indices) override {
-            unsigned int vao = 0, vbo = 0, indexBuffer = 0;
+        Mesh OpenGLContext::CreateMesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices) {
+            unsigned int vao = 0, vbo = 0, ebo = 0;
             glGenVertexArrays(1, &vao);
             glBindVertexArray(vao);
 
@@ -43,25 +38,23 @@ namespace tiny_cherno {
             float *vertexArray = new float[vertices.size()];
             std::copy(vertices.begin(), vertices.end(), vertexArray);
 
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertexArray), vertexArray, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertexArray, GL_STATIC_DRAW);
 
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-            glGenBuffers(1, &indexBuffer);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+            glGenBuffers(1, &ebo);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-            float *indexArray = new float[indices.size()];
+            unsigned int *indexArray = new unsigned int[indices.size()];
             std::copy(indices.begin(), indices.end(), indexArray);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexArray), indexArray, GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indexArray, GL_STATIC_DRAW);
 
             return Mesh(vao, vbo, vertices, indices);
         }
 
-        void DrawMesh(const Mesh &mesh) override {
-            glBindVertexArray(mesh.VAO());
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+        void OpenGLContext::DrawMesh(const Mesh &mesh) {
+            glDrawElements(GL_TRIANGLES, mesh.VertexCount(), GL_UNSIGNED_INT, nullptr);
         }
-    };
 
 }

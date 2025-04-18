@@ -21,8 +21,20 @@ std::optional<std::shared_ptr<Event>> EventDispatcher::nextEvent() {
     return e;
 }
 
+void EventDispatcher::processEvent(std::shared_ptr<Event> e) {
+    if (m_listeners.find(e->type) == m_listeners.end())
+        return;
+
+    for (EventListener listener : m_listeners[e->type])
+        listener(*e);
+}
+
 void EventDispatcher::Dispatch(std::shared_ptr<Event> e) {
     m_events.push(e);
+}
+
+void EventDispatcher::DispatchImmediately(std::shared_ptr<Event> e) {
+    processEvent(e);
 }
 
 void EventDispatcher::ProcessQueue() {
@@ -31,11 +43,7 @@ void EventDispatcher::ProcessQueue() {
         if (!e.has_value())
             continue;
 
-        if (m_listeners.find(e->get()->type) == m_listeners.end())
-            continue;
-
-        for (EventListener listener : m_listeners[e->get()->type])
-            listener(*e->get());
+        processEvent(*e);
     }
 }
 

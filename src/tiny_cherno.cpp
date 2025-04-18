@@ -3,8 +3,10 @@
 #include "event/key_event.hpp"
 #include "event/render_event.hpp"
 #include "event/update_event.hpp"
+#include "glad/glad.h"
+#include "rendering/opengl/opengl.hpp"
+#include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
-#include "rendering/opengl/context.cpp"
 #include "scene/scene.hpp"
 #include "spdlog/spdlog.h"
 
@@ -18,6 +20,7 @@ namespace tiny_cherno {
     static Window *s_window;
     static std::vector<Scene> s_scenes(1);
     static Scene *s_currentScene;
+    static Renderer *s_renderer;
     static EventDispatcher s_eventDispatcher;
     static SystemRegistry s_systems;
     static int s_targetFPS = 60;
@@ -66,6 +69,24 @@ namespace tiny_cherno {
             return RENDERING_ERROR;
         }
 
+        OpenGLShader vertex(GL_VERTEX_SHADER,
+                "#version 330 core\n"
+                "layout(location = 0) in vec3 aPos;\n"
+                "void main() {\n"
+                "    gl_Position = vec4(aPos, 1.0);\n"
+                "}\n");
+
+        OpenGLShader fragment(GL_FRAGMENT_SHADER,
+                "#version 330 core\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                "} \n");
+
+        OpenGLShaderProgram *program = new OpenGLShaderProgram(&vertex, &fragment);
+
+        s_renderer = new Renderer(s_window->Context(), program);
+
         registerCallbacks();
 
         s_currentScene = &s_scenes.front();
@@ -97,14 +118,15 @@ namespace tiny_cherno {
                 s_eventDispatcher.Dispatch(std::make_shared<UpdateEvent>());
                 s_eventDispatcher.ProcessQueue();
                 update();
+                s_window->Update();
                 lastTick = std::chrono::high_resolution_clock::now();
             }
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
                 double deltaTime = (double) timeSinceLastTick / s_targetFPS;
-                s_window->Context()->Clear();
-                s_eventDispatcher.Dispatch(std::make_shared<RenderEvent>(s_window->Context(), deltaTime));
-                s_window->Update();
+                s_renderer->Prepare();
+                s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_window->Context(), deltaTime));
+                s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
             }
         }
@@ -115,8 +137,10 @@ namespace tiny_cherno {
 
     void Shutdown() {
         delete s_window;
+        delete s_renderer;
         s_scenes.clear();
         s_currentScene = nullptr;
+        s_renderer = nullptr;
         s_eventDispatcher.Shutdown();
         s_systems.Shutdown();
         s_initialized = false;
