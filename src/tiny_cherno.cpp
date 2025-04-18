@@ -111,6 +111,8 @@ namespace tiny_cherno {
         delete s_renderer;
         s_currentScene = nullptr;
         s_renderer = nullptr;
+
+        glfwTerminate();
     }
 
     bool Run() {
@@ -122,7 +124,9 @@ namespace tiny_cherno {
         spdlog::info("Entering the main loop...");
         auto lastTick = std::chrono::high_resolution_clock::now();
         auto lastRender = std::chrono::high_resolution_clock::now();
-        while (!s_window->ShouldClose() || !s_shouldStop) {
+        while (!s_window->ShouldClose() && !s_shouldStop) {
+            s_window->Update();
+
             auto now = std::chrono::high_resolution_clock::now();
             const long timeSinceLastTick = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTick).count();
             const long timeSinceLastRender = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastRender).count();
@@ -132,7 +136,6 @@ namespace tiny_cherno {
                 s_eventDispatcher.Dispatch(std::make_shared<UpdateEvent>());
                 s_eventDispatcher.ProcessQueue();
                 update();
-                s_window->Update();
                 lastTick = std::chrono::high_resolution_clock::now();
             }
 
