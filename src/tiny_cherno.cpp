@@ -3,7 +3,6 @@
 #include "event/key_event.hpp"
 #include "event/render_event.hpp"
 #include "event/update_event.hpp"
-#include "glad/glad.h"
 #include "profiling/profiler.hpp"
 #include "rendering/opengl/opengl.hpp"
 #include "rendering/renderer.hpp"
@@ -83,7 +82,9 @@ namespace tiny_cherno {
 
         OpenGLShader vertex(GL_VERTEX_SHADER, R"(
                 #version 330 core
+
                 layout(location = 0) in vec3 aPos;
+
                 void main() {
                     gl_Position = vec4(aPos, 1.0);
                 }
@@ -91,9 +92,11 @@ namespace tiny_cherno {
 
         OpenGLShader fragment(GL_FRAGMENT_SHADER, R"(
                 #version 330 core
+
                 out vec4 FragColor;
+
                 void main() {
-                FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+                    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
                 }
                 )");
 
