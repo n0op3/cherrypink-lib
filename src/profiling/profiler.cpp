@@ -1,4 +1,5 @@
 #include "profiler.hpp"
+#include "spdlog/spdlog.h"
 #include <chrono>
 #include <unordered_map>
 
@@ -32,6 +33,18 @@ namespace tiny_cherno {
 
             return s_profiles;
         } 
+
+        void PrintResults() {
+            if (s_profiles.empty())
+                return;
+
+            spdlog::debug("_________________");
+            spdlog::debug("Profiler results:");
+            for (auto &[name, profile] : Finish()) {
+                spdlog::debug("[{}] {}ms", name, profile.Duration());
+            }
+            spdlog::debug("_________________");
+        }
     }
 
 }

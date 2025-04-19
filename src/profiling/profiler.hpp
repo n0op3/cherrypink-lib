@@ -20,6 +20,7 @@ namespace tiny_cherno {
         void Begin(const char *frame);
         void End(const char *frame);
         std::unordered_map<const char*, Profile> Finish();
+        void PrintResults();
     };
 
 }

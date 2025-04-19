@@ -52,9 +52,15 @@ namespace tiny_cherno {
             return NONE;
 
         spdlog::info("Initializing the TinyCherno runtime!");
+
+        profiler::Begin("init");
+
         glfwSetErrorCallback([](int errorCode, const char *description) { 
             spdlog::error("GLFW error {}: {}", errorCode, description); 
         });
+
+
+        profiler::Begin("glfw init");
 
         if (!glfwInit()) {
             spdlog::critical("Failed to initialize GLFW");
@@ -70,6 +76,10 @@ namespace tiny_cherno {
             spdlog::error("Could not create the rendering context");
             return RENDERING_ERROR;
         }
+
+        profiler::End("glfw init");
+
+        profiler::Begin("rendering init");
 
         OpenGLShader vertex(GL_VERTEX_SHADER,
                 "#version 330 core\n"
@@ -89,11 +99,18 @@ namespace tiny_cherno {
 
         s_renderer = new Renderer(s_window->Context(), program);
 
+        profiler::End("rendering init");
+
         registerCallbacks();
 
         s_currentScene = &s_scenes.front();
 
         s_initialized = true;
+
+        profiler::End("init");
+        
+        profiler::PrintResults();
+
         return NONE;
     }
 
@@ -102,6 +119,8 @@ namespace tiny_cherno {
     }
 
     void shutdown() {
+        profiler::Begin("shutdown");
+
         s_scenes.clear();
         s_renderer->Shutdown();
         s_eventDispatcher.Shutdown();
@@ -114,6 +133,9 @@ namespace tiny_cherno {
         s_renderer = nullptr;
 
         glfwTerminate();
+
+        profiler::End("shutdown");
+        profiler::PrintResults();
     }
 
     bool Run() {
@@ -135,25 +157,27 @@ namespace tiny_cherno {
             const double secondInMs = 1000;
 
             if (timeSinceLastTick >= secondInMs / s_updateRate) {
+                profiler::Begin("update");
+                profiler::Begin("events");
                 s_eventDispatcher.Dispatch(std::make_shared<UpdateEvent>());
                 s_eventDispatcher.ProcessQueue();
+                profiler::End("events");
                 update();
                 lastTick = std::chrono::high_resolution_clock::now();
+                profiler::End("update");
             }
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
+                profiler::Begin("render");
                 double deltaTime = (double) timeSinceLastTick / s_targetFPS;
                 s_renderer->Prepare();
                 s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_window->Context(), deltaTime));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
+                profiler::End("render");
             }
 
-            for (auto &[name, profile] : tiny_cherno::profiler::Finish()) {
-                spdlog::info("Profiler results:");
-                spdlog::info("[{}] {}ms", name, profile.Duration());
-                spdlog::info("Profiler end.");
-            }
+            profiler::PrintResults();
         }
 
         shutdown();
