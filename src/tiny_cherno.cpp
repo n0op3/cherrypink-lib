@@ -81,19 +81,21 @@ namespace tiny_cherno {
 
         profiler::Begin("rendering init");
 
-        OpenGLShader vertex(GL_VERTEX_SHADER,
-                "#version 330 core\n"
-                "layout(location = 0) in vec3 aPos;\n"
-                "void main() {\n"
-                "    gl_Position = vec4(aPos, 1.0);\n"
-                "}\n");
+        OpenGLShader vertex(GL_VERTEX_SHADER, R"(
+                #version 330 core
+                layout(location = 0) in vec3 aPos;
+                void main() {
+                    gl_Position = vec4(aPos, 1.0);
+                }
+                )");
 
-        OpenGLShader fragment(GL_FRAGMENT_SHADER,
-                "#version 330 core\n"
-                "out vec4 FragColor;\n"
-                "void main() {\n"
-                "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-                "} \n");
+        OpenGLShader fragment(GL_FRAGMENT_SHADER, R"(
+                #version 330 core
+                out vec4 FragColor;
+                void main() {
+                FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+                }
+                )");
 
         OpenGLShaderProgram *program = new OpenGLShaderProgram(&vertex, &fragment);
 
