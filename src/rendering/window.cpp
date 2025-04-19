@@ -70,7 +70,7 @@ namespace tiny_cherno {
         glfwSetWindowAttrib(m_handle, attribute, value);
     }
 
-    RenderingContext *Window::Context() {
+    RenderingContext *Window::Context() const {
         return m_renderingContext;
     }
 

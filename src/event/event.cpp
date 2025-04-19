@@ -9,9 +9,6 @@ namespace tiny_cherno {
 
 Event::Event(EventType type) : type(type) {};
 
-EventDispatcher::EventDispatcher()
-    : m_events(std::queue<std::shared_ptr<Event>>()) {}
-
 std::optional<std::shared_ptr<Event>> EventDispatcher::nextEvent() {
     if (m_events.empty())
         return std::nullopt;
@@ -60,7 +57,7 @@ void EventDispatcher::ClearQueue() {
         m_events.pop();
 }
 
-bool EventDispatcher::IsDone() { return m_events.empty(); }
+bool EventDispatcher::IsDone() const { return m_events.empty(); }
 
 void EventDispatcher::Shutdown() {
     m_listeners.clear();

@@ -26,13 +26,13 @@ class Event {
 using EventListener = std::function<bool(Event &event)>;
 class EventDispatcher {
   public:
-    EventDispatcher();
+    EventDispatcher() = default;
     void Dispatch(std::shared_ptr<Event> e);
     void DispatchImmediately(std::shared_ptr<Event> e);
     void ProcessQueue();
     void RegisterListener(EventType type, EventListener listener);
     void ClearQueue();
-    bool IsDone();
+    bool IsDone() const;
     void Shutdown();
 
   private:

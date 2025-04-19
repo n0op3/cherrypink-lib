@@ -54,7 +54,7 @@ public:
         return std::nullopt;
     }
 
-    void updateComponents(SystemRegistry &systems) {
+    void updateComponents(SystemRegistry &systems) const {
         for (auto& [type, entity_map] : m_components) {
             for (auto& [entity, wrapper] : entity_map) {
                 wrapper->Process(entity, systems);

@@ -32,7 +32,7 @@ namespace tiny_cherno {
             void SetTitle(const char* title);
             int GetAttribute(int attribute) const;
             void SetAttribute(int attribute, int value);
-            RenderingContext *Context();
+            RenderingContext *Context() const;
             void SetRenderingContext(RenderingContext *renderingContext);
             GLFWwindow *Handle() const;
         private:
