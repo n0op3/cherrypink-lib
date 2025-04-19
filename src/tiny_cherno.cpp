@@ -4,6 +4,7 @@
 #include "event/render_event.hpp"
 #include "event/update_event.hpp"
 #include "glad/glad.h"
+#include "profiling/profiler.hpp"
 #include "rendering/opengl/opengl.hpp"
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
@@ -125,6 +126,7 @@ namespace tiny_cherno {
         auto lastTick = std::chrono::high_resolution_clock::now();
         auto lastRender = std::chrono::high_resolution_clock::now();
         while (!s_window->ShouldClose() && !s_shouldStop) {
+            tiny_cherno::profiler::Begin();
             s_window->Update();
 
             auto now = std::chrono::high_resolution_clock::now();
@@ -145,6 +147,12 @@ namespace tiny_cherno {
                 s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_window->Context(), deltaTime));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
+            }
+
+            for (auto &[name, profile] : tiny_cherno::profiler::Finish()) {
+                spdlog::info("Profiler results:");
+                spdlog::info("[{}] {}ms", name, profile.Duration());
+                spdlog::info("Profiler end.");
             }
         }
 
