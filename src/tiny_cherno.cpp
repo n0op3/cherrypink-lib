@@ -193,9 +193,9 @@ namespace tiny_cherno {
         s_shouldStop = true;
     }
 
-    void SetUpdateRate(unsigned int updateRate) { s_updateRate = updateRate; }
+    void SetUpdateRate(unsigned int updateRate) { if (updateRate >= 0) s_updateRate = updateRate; }
 
-    void SetTargetFPS(unsigned int fps) { s_targetFPS = fps; }
+    void SetTargetFPS(unsigned int fps) { if (fps >= 0) s_targetFPS = fps; }
 
     int UpdateRate() { return s_updateRate; }
 
