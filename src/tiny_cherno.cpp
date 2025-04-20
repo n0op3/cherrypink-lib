@@ -203,11 +203,11 @@ namespace tiny_cherno {
 
     bool IsInitialized() { return s_initialized; }
 
-    Window *GetWindow() { return s_window; }
+    Window &GetWindow() { return *s_window; }
 
     EventDispatcher& Events() { return s_eventDispatcher; }
 
-    Scene* CurrentScene() { return s_currentScene; }
+    Scene &CurrentScene() { return *s_currentScene; }
 
     SystemRegistry& Systems() { return s_systems; }
 

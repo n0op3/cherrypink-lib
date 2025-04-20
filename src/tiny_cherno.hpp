@@ -24,8 +24,8 @@ namespace tiny_cherno {
     int TargetFPS();
     void SetTargetFPS(unsigned int fps);
     EventDispatcher &Events();
-    Window *GetWindow();
-    Scene *CurrentScene();
+    Window &GetWindow();
+    Scene &CurrentScene();
     SystemRegistry &Systems();
 
 } // namespace tiny_cherno
