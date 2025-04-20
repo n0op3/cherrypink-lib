@@ -205,10 +205,10 @@ namespace tiny_cherno {
 
     Window &GetWindow() { return *s_window; }
 
-    EventDispatcher& Events() { return s_eventDispatcher; }
+    EventDispatcher &Events() { return s_eventDispatcher; }
 
     Scene &CurrentScene() { return *s_currentScene; }
 
-    SystemRegistry& Systems() { return s_systems; }
+    SystemRegistry &Systems() { return s_systems; }
 
 } // namespace tiny_cherno
