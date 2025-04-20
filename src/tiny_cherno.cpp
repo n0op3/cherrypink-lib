@@ -70,8 +70,9 @@ namespace tiny_cherno {
             glfwWindowHint(GLFW_RESIZABLE, false);
 
         s_window = new Window(windowParameters);
-        s_window->SetRenderingContext(new OpenGLContext(s_window->Handle()));
-        if (!s_window->Context()->Init()) {
+        s_renderer = new Renderer(new OpenGLContext(s_window->Handle()));
+
+        if (!s_renderer->Context()->Init()) {
             spdlog::error("Could not create the rendering context");
             return RENDERING_ERROR;
         }
@@ -102,7 +103,7 @@ namespace tiny_cherno {
 
         OpenGLShaderProgram *program = new OpenGLShaderProgram(&vertex, &fragment);
 
-        s_renderer = new Renderer(s_window->Context(), program);
+        s_renderer->SetProgram(program);
 
         profiler::End("rendering init");
 
@@ -176,7 +177,7 @@ namespace tiny_cherno {
                 profiler::Begin("render");
                 double deltaTime = (double) timeSinceLastTick / s_targetFPS;
                 s_renderer->Prepare();
-                s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_window->Context(), deltaTime));
+                s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_renderer->Context(), deltaTime));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
                 profiler::End("render");
@@ -210,5 +211,7 @@ namespace tiny_cherno {
     Scene &CurrentScene() { return *s_currentScene; }
 
     SystemRegistry &Systems() { return s_systems; }
+
+    Renderer &GetRenderer() { return *s_renderer; }
 
 } // namespace tiny_cherno

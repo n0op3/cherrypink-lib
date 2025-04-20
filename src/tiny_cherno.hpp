@@ -1,6 +1,7 @@
 #pragma once
 
 #include "event/event.hpp"
+#include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
 #include "scene/scene.hpp"
 
@@ -27,5 +28,6 @@ namespace tiny_cherno {
     Window &GetWindow();
     Scene &CurrentScene();
     SystemRegistry &Systems();
+    Renderer &GetRenderer();
 
 } // namespace tiny_cherno
