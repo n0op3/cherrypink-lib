@@ -8,6 +8,7 @@
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
 #include "scene/scene.hpp"
+#include "spdlog/common.h"
 #include "spdlog/spdlog.h"
 
 #include "GLFW/glfw3.h"
@@ -49,6 +50,10 @@ namespace tiny_cherno {
     InitializationError Init(WindowParameters windowParameters) {
         if (s_initialized)
             return NONE;
+
+        #ifdef DEBUG
+        spdlog::set_level(spdlog::level::debug);
+        #endif // DEBUG
 
         spdlog::info("Initializing the TinyCherno runtime!");
 
