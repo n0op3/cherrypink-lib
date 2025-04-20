@@ -8,7 +8,6 @@
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
 #include "scene/scene.hpp"
-#include "spdlog/common.h"
 #include "spdlog/spdlog.h"
 
 #include "GLFW/glfw3.h"
@@ -52,6 +51,7 @@ namespace tiny_cherno {
             return NONE;
 
         #ifdef DEBUG
+        #include "spdlog/common.h"
         spdlog::set_level(spdlog::level::debug);
         #endif // DEBUG
 
