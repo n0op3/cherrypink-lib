@@ -11,11 +11,16 @@ namespace tiny_cherno {
 
     #define ASSERTION_FAILED_EXIT_CODE 712
 
-    #define TC_ASSERT(expr, message) \
-        if (!(expr)) { \
-            spdlog::error("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__, message); \
-        }
-    
+    #ifdef DEBUG
+        #define TC_ASSERT(expr, message) \
+            if (!(expr)) { \
+                spdlog::error("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__, message); \
+            }
+    #else
+        #define TC_ASSERT(expr, message) \
+            /* removed */
+    #endif // DEBUG
+
     #define TC_CRITICAL_ASSERT(expr, message) \
         if (!(expr)) { \
             spdlog::critical("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__, message); \
