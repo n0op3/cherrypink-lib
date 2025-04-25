@@ -180,9 +180,9 @@ namespace tiny_cherno {
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
                 profiler::Begin("render");
-                double deltaTime = (double) timeSinceLastTick / s_targetFPS;
+                double partialTicks = (double) timeSinceLastTick / s_targetFPS;
                 s_renderer->Prepare();
-                s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_renderer->Context(), deltaTime));
+                s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_renderer->Context(), partialTicks));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
                 profiler::End("render");
