@@ -13,7 +13,7 @@ class Scene {
     public:
         Scene() = default;
         Scene(const Scene &&other) = delete;
-        void SpawnEntity(std::shared_ptr<Entity> entity);
+        Entity &SpawnEntity();
         std::optional<std::shared_ptr<Entity>> GetEntityByUUID(const UUID &uuid);
         void DespawnEntity(const UUID &uuid);
     public:
