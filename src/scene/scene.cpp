@@ -3,7 +3,7 @@
 #include <memory>
 #include <optional>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     void Scene::SpawnEntity(std::shared_ptr<Entity> entity) {
         entities[entity->Uuid] = entity;

@@ -7,7 +7,7 @@
 #include <queue>
 #include <vector>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 enum EventType { 
     WINDOW_EVENT,
@@ -44,4 +44,4 @@ class EventDispatcher {
     std::map<EventType, std::vector<EventListener>> m_listeners;
 };
 
-} // namespace tiny_cherno
+} // namespace cherrypink

@@ -7,7 +7,7 @@
 #include "rendering/camera.hpp"
 #include "util/uuid.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 class Scene {
     public:

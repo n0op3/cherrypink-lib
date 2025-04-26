@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <ostream>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
-UUID::UUID() : m_value(tiny_cherno::random<uint64_t>()) {}
+UUID::UUID() : m_value(cherrypink::random<uint64_t>()) {}
 uint64_t UUID::Value() const { return m_value; }
 
 std::ostream& operator<<(std::ostream& os, const UUID& uuid) {

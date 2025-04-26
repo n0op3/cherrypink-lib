@@ -5,7 +5,7 @@
 #include <typeindex>
 #include <unordered_map>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 template<typename T>
 

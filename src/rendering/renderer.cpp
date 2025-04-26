@@ -2,7 +2,7 @@
 #include "rendering/context.hpp"
 #include "rendering/shader.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     Renderer::Renderer(RenderingContext *context, ShaderProgram *program) : m_context(context), m_program(program) {}
 

@@ -5,7 +5,7 @@
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float4.hpp>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     class Shader {
         public:

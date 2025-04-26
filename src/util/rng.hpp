@@ -2,7 +2,7 @@
 
 #include <random>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     template <typename T> T random() {
         static std::mt19937 gen{std::random_device{}()}; 

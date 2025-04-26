@@ -4,7 +4,7 @@
 #include "rendering/context.hpp"
 #include "rendering/shader.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     class Renderer {
         public:

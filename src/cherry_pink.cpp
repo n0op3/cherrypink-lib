@@ -1,4 +1,4 @@
-#include "tiny_cherno.hpp"
+#include "cherry_pink.hpp"
 #include "event/mouse_event.hpp"
 #include "event/key_event.hpp"
 #include "event/render_event.hpp"
@@ -14,7 +14,7 @@
 #include <chrono>
 #include <memory>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     static bool s_initialized = false;
     static bool s_shouldStop = false;
@@ -55,7 +55,7 @@ namespace tiny_cherno {
         spdlog::set_level(spdlog::level::debug);
         #endif // DEBUG
 
-        spdlog::info("Initializing the TinyCherno runtime!");
+        spdlog::info("Initializing the CherryPink runtime!");
 
         profiler::Begin("init");
 
@@ -162,7 +162,7 @@ namespace tiny_cherno {
         auto lastTick = std::chrono::high_resolution_clock::now();
         auto lastRender = std::chrono::high_resolution_clock::now();
         while (!s_window->ShouldClose() && !s_shouldStop) {
-            tiny_cherno::profiler::Begin();
+            cherrypink::profiler::Begin();
             s_window->Update();
 
             auto now = std::chrono::high_resolution_clock::now();
@@ -223,4 +223,4 @@ namespace tiny_cherno {
 
     Renderer &GetRenderer() { return *s_renderer; }
 
-} // namespace tiny_cherno
+} // namespace cherrypink

@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     OpenGLShader::OpenGLShader(unsigned int type, const char *code) {
         m_id = glCreateShader(type);

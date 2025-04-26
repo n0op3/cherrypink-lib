@@ -2,7 +2,7 @@
 #include <glm/ext/vector_float3.hpp>
 #include <vector>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     Mesh::Mesh(int vao, int vbo, const std::vector<float> vertices, const std::vector<unsigned int> indices) : m_indices(indices), m_vao(vao), m_vbo(vbo) {
         for (size_t i = 0; i < vertices.size(); i += 3) {

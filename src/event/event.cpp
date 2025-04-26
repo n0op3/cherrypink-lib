@@ -5,7 +5,7 @@
 #include <queue>
 #include <vector>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 Event::Event(EventType type) : type(type) {};
 
@@ -65,4 +65,4 @@ void EventDispatcher::Shutdown() {
         m_events.pop();
 }
 
-} // namespace tiny_cherno
+} // namespace cherrypink

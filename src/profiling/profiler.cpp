@@ -3,7 +3,7 @@
 #include <chrono>
 #include <unordered_map>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     namespace profiler {
         #define NOW std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()

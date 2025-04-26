@@ -8,7 +8,7 @@
 #include <glm/geometric.hpp>
 #include <glm/trigonometric.hpp>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     static glm::vec3 s_cameraUp = glm::vec3(0.0, 1.0, 0.0);
 

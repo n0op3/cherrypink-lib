@@ -1,7 +1,7 @@
 #pragma once
 
 #include "event.hpp"
-namespace tiny_cherno {
+namespace cherrypink {
 
 class KeyEvent : public Event {
   public:
@@ -13,4 +13,4 @@ class KeyEvent : public Event {
     const int modifiers;
 };
 
-} // namespace tiny_cherno
+} // namespace cherrypink

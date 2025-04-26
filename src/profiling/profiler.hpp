@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <unordered_map>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     namespace profiler {
 

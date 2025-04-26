@@ -2,7 +2,7 @@
 
 #include "event/event.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     class UpdateEvent : public Event {
         public:

@@ -4,7 +4,7 @@
 #include "rendering/window.hpp"
 #include <vector>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     class RenderingContext {
         public:

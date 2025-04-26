@@ -7,7 +7,7 @@
 
 struct GLFWwindow;
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     #define ASSERTION_FAILED_EXIT_CODE 712
 
@@ -48,4 +48,4 @@ namespace tiny_cherno {
     SystemRegistry &Systems();
     Renderer &GetRenderer();
 
-} // namespace tiny_cherno
+} // namespace cherrypink

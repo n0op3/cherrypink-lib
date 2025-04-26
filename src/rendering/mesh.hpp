@@ -4,7 +4,7 @@
 #include <glm/vec3.hpp>
 #include <vector>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     class Mesh {
         public:

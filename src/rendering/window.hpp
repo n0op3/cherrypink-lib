@@ -4,7 +4,7 @@
 
 struct GLFWwindow;
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     struct WindowParameters {
         const char *title;
@@ -36,4 +36,4 @@ namespace tiny_cherno {
             GLFWwindow *m_handle;
     };
 
-} // namespace tiny_cherno
+} // namespace cherrypink

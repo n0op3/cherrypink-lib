@@ -8,7 +8,7 @@ project "glfw3"
     kind "StaticLib"
     language "C"
 
-project "TinyChernoLib"
+project "CherryPink"
     kind "StaticLib"
     language "C++"
     cppdialect "C++20"

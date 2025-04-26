@@ -2,7 +2,7 @@
 
 #include "event.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 class MouseMoveEvent : public Event {
   public:
@@ -31,4 +31,4 @@ class MouseScrollEvent : public Event {
         const double yOffset;
 };
 
-} // namespace tiny_cherno
+} // namespace cherrypink

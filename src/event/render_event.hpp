@@ -3,7 +3,7 @@
 #include "event/event.hpp"
 #include "rendering/context.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
     
     class RenderEvent : public Event {
         public:

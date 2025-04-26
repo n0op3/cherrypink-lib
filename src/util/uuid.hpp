@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <functional>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 class UUID {
     public:
@@ -19,8 +19,8 @@ class UUID {
 
 namespace std {
     template<>
-    struct hash<tiny_cherno::UUID> {
-        size_t operator()(const tiny_cherno::UUID& uuid) const noexcept {
+    struct hash<cherrypink::UUID> {
+        size_t operator()(const cherrypink::UUID& uuid) const noexcept {
             return std::hash<uint64_t>{}(uuid.Value());
         }
     };

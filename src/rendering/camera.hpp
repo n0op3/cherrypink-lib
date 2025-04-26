@@ -3,7 +3,7 @@
 #include <glm/detail/type_mat4x4.hpp>
 #include <glm/ext/vector_float3.hpp>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     class Camera {
         public:

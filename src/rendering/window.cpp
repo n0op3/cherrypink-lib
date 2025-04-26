@@ -2,7 +2,7 @@
 #include "GLFW/glfw3.h"
 #include <utility>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
     Window::Window(WindowParameters params) {
         m_handle = glfwCreateWindow(params.width, params.height, params.title, NULL, NULL);

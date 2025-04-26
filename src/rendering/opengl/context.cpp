@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
         bool OpenGLContext::Init() {
             glfwMakeContextCurrent(m_window->Handle());

@@ -1,4 +1,4 @@
-workspace "TinyCherno"
+workspace "CherryPink"
     configurations { "Debug", "Release" }
     location "build"
 

@@ -2,7 +2,7 @@
 
 #include "util/uuid.hpp"
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 struct Entity {
     const UUID Uuid;

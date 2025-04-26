@@ -9,7 +9,7 @@
 #include <typeindex>
 #include <unordered_map>
 
-namespace tiny_cherno {
+namespace cherrypink {
 
 struct ComponentWrapper {
     virtual void Process(const UUID& entityUuid, SystemRegistry& registry) = 0;
@@ -69,4 +69,4 @@ private:
 };
 
 
-} // namespace tiny_cherno
+} // namespace cherrypink
