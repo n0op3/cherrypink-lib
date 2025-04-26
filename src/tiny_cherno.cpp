@@ -75,7 +75,7 @@ namespace tiny_cherno {
             glfwWindowHint(GLFW_RESIZABLE, false);
 
         s_window = new Window(windowParameters);
-        s_renderer = new Renderer(new OpenGLContext(s_window->Handle()));
+        s_renderer = new Renderer(new OpenGLContext(s_window));
 
         if (!s_renderer->Context()->Init()) {
             spdlog::error("Could not create the rendering context");
@@ -91,8 +91,11 @@ namespace tiny_cherno {
 
                 layout(location = 0) in vec3 aPos;
 
+                uniform mat4 cameraView;
+                uniform mat4 cameraProjection;
+
                 void main() {
-                    gl_Position = vec4(aPos, 1.0);
+                    gl_Position = cameraProjection * cameraView * vec4(aPos, 1.0);
                 }
                 )");
 
@@ -181,6 +184,7 @@ namespace tiny_cherno {
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
                 profiler::Begin("render");
                 double partialTicks = (double) timeSinceLastTick / s_targetFPS;
+                s_renderer->UseCamera(&CurrentScene().camera);
                 s_renderer->Prepare();
                 s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_renderer->Context(), partialTicks));
                 s_renderer->Finish();

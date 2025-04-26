@@ -19,14 +19,14 @@ namespace tiny_cherno {
             virtual ~ShaderProgram() {}
             virtual void Enable() = 0;
             virtual void Disable() = 0;
+            virtual void SetUniform1f(const char *uniformName, float value) = 0;
+            virtual void SetUniform2f(const char *uniformName, glm::vec2 &&value) = 0;
+            virtual void SetUniform3f(const char *uniformName, glm::vec3 &&value) = 0;
+            virtual void SetUniform4f(const char *uniformName, glm::vec4 &&value) = 0;
+            virtual void SetUniform2x2f(const char *uniformName, glm::mat2x2 &&value) = 0;
+            virtual void SetUniform3x3f(const char *uniformName, glm::mat3x3 &&value) = 0;
+            virtual void SetUniform4x4f(const char *uniformName, glm::mat4x4 &&value) = 0;
             unsigned int ID() const { return m_id; }
-            virtual void SetUniform1f(const char *uniformName, float value);
-            virtual void SetUniform2f(const char *uniformName, glm::vec2 &value);
-            virtual void SetUniform3f(const char *uniformName, glm::vec3 &value);
-            virtual void SetUniform4f(const char *uniformName, glm::vec4 &value);
-            virtual void SetUniform2x2f(const char *uniformName, glm::mat2x2 &value);
-            virtual void SetUniform3x3f(const char *uniformName, glm::mat3x3 &value);
-            virtual void SetUniform4x4f(const char *uniformName, glm::mat4x4 &value);
         protected:
             unsigned int m_id;
     };

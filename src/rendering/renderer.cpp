@@ -11,6 +11,10 @@ namespace tiny_cherno {
     void Renderer::Prepare() {
         m_context->Clear();
         m_program->Enable();
+        if (m_camera) {
+            m_program->SetUniform4x4f("cameraView", m_camera->View());
+            m_program->SetUniform4x4f("cameraProjection", m_camera->Projection(m_context->GetWindow()->Width(), m_context->GetWindow()->Height()));
+        }
     }
 
     void Renderer::Finish() {
@@ -31,7 +35,8 @@ namespace tiny_cherno {
 
     void Renderer::SetProgram(ShaderProgram *shaderProgram) { m_program = shaderProgram; }
 
+    void Renderer::UseCamera(Camera *camera) { m_camera = camera; }
+
     ShaderProgram *Renderer::CurrentProgram() { return m_program; }
 
 }
-

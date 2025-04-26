@@ -7,12 +7,13 @@ namespace tiny_cherno {
 
     class Camera {
         public:
+            Camera();
             glm::vec3 Direction() const;
             glm::vec3 Up() const;
             glm::vec3 Right() const;
-            glm::mat4 LookAt() const ;
+            glm::mat4 LookAt() const;
             glm::mat4 Projection(float screenWidth, float screenHeight) const;
-            glm::mat4 View() const ;
+            glm::mat4 View() const;
             float Fov() const;
             void SetFov(float fov);
             float Near() const;

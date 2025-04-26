@@ -1,5 +1,6 @@
 #pragma once
 
+#include "rendering/camera.hpp"
 #include "rendering/context.hpp"
 #include "rendering/shader.hpp"
 
@@ -15,10 +16,12 @@ namespace tiny_cherno {
             void SetContext(RenderingContext *context);
             RenderingContext *Context();
             void SetProgram(ShaderProgram *context);
+            void UseCamera(Camera *camera);
             ShaderProgram *CurrentProgram();
         private:
             RenderingContext *m_context;
             ShaderProgram *m_program;
+            Camera *m_camera;
     };
     
 }

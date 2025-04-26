@@ -11,7 +11,7 @@
 namespace tiny_cherno {
 
         bool OpenGLContext::Init() {
-            glfwMakeContextCurrent(m_windowHandle);
+            glfwMakeContextCurrent(m_window->Handle());
             if (!gladLoadGL()) {
                 spdlog::critical("Failed to initialize OpenGL");
                 return false;
@@ -24,7 +24,7 @@ namespace tiny_cherno {
         }
 
         void OpenGLContext::SwapBuffers() {
-            glfwSwapBuffers(m_windowHandle);
+            glfwSwapBuffers(m_window->Handle());
         }
 
         Mesh OpenGLContext::CreateMesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices) {
