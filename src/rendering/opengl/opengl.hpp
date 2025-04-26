@@ -30,6 +30,13 @@ namespace tiny_cherno {
             OpenGLShaderProgram(OpenGLShader *vertexShader, OpenGLShader *fragmentShader);
             void Enable() override;
             void Disable() override;
+            void SetUniform1f(const char *uniformName, float value) override;
+            void SetUniform2f(const char *uniformName, glm::vec2 &value) override;
+            void SetUniform3f(const char *uniformName, glm::vec3 &value) override;
+            void SetUniform4f(const char *uniformName, glm::vec4 &value) override;
+            void SetUniform2x2f(const char *uniformName, glm::mat2x2 &value) override;
+            void SetUniform3x3f(const char *uniformName, glm::mat3x3 &value) override;
+            void SetUniform4x4f(const char *uniformName, glm::mat4x4 &value) override;
     };
 
 }

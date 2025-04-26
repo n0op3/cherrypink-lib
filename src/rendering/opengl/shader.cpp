@@ -3,6 +3,7 @@
 #include "rendering/opengl/opengl.hpp"
 #include "spdlog/spdlog.h"
 #include <cstddef>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace tiny_cherno {
 
@@ -42,6 +43,34 @@ namespace tiny_cherno {
 
     void OpenGLShaderProgram::Disable() {
         glUseProgram(0);
+    }
+
+    void OpenGLShaderProgram::SetUniform1f(const char *uniformName, float value) {
+        glUniform1f(glGetUniformLocation(m_id, uniformName), value);
+    }
+
+    void OpenGLShaderProgram::SetUniform2f(const char *uniformName, glm::vec2 &value) {
+        glUniform2f(glGetUniformLocation(m_id, uniformName), value.x, value.y);
+    }
+
+    void OpenGLShaderProgram::SetUniform3f(const char *uniformName, glm::vec3 &value) {
+        glUniform3f(glGetUniformLocation(m_id, uniformName), value.x, value.y, value.z);
+    }
+
+    void OpenGLShaderProgram::SetUniform4f(const char *uniformName, glm::vec4 &value) {
+        glUniform4f(glGetUniformLocation(m_id, uniformName), value.x, value.y, value.z, value.w);
+    }
+
+    void OpenGLShaderProgram::SetUniform2x2f(const char *uniformName, glm::mat2x2 &value) {
+        glUniformMatrix2fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
+    }
+
+    void OpenGLShaderProgram::SetUniform3x3f(const char *uniformName, glm::mat3x3 &value) {
+        glUniformMatrix3fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
+    }
+
+    void OpenGLShaderProgram::SetUniform4x4f(const char *uniformName, glm::mat4x4 &value) {
+        glUniformMatrix4fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
     }
 
 }
