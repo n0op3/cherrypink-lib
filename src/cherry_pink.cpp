@@ -14,9 +14,11 @@
 #include "spdlog/spdlog.h"
 
 #include "GLFW/glfw3.h"
+#include <algorithm>
 #include <chrono>
 #include <memory>
 #include <optional>
+#include <unistd.h>
 
 namespace cherrypink {
 
@@ -209,6 +211,8 @@ namespace cherrypink {
                 lastRender = std::chrono::high_resolution_clock::now();
                 profiler::End("render");
             }
+
+            sleep(1.0 / std::max(s_updateRate, s_targetFPS) / 2.0);
 
             profiler::PrintResults();
         }
