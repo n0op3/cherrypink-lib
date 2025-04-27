@@ -57,4 +57,8 @@ namespace cherrypink {
             glDrawElements(GL_TRIANGLES, mesh.VertexCount(), GL_UNSIGNED_INT, nullptr);
         }
 
+        void OpenGLContext::SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) {
+            glViewport(x, y, width, height);
+        }
+
 }

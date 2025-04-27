@@ -16,6 +16,7 @@ namespace cherrypink {
             void SwapBuffers() override;
             Mesh CreateMesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices) override;
             void DrawMesh(const Mesh &mesh) override;
+            void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
     };
 
     class OpenGLShader : public Shader {

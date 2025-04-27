@@ -1,4 +1,5 @@
 #include "renderer.hpp"
+#include "cherry_pink.hpp"
 #include "rendering/context.hpp"
 #include "rendering/shader.hpp"
 #include <glm/ext/matrix_float4x4.hpp>
@@ -12,6 +13,7 @@ namespace cherrypink {
     void Renderer::Prepare() {
         m_context->Clear();
         m_program->Enable();
+        m_context->SetViewport(0, 0, GetWindow().Width(), GetWindow().Height());
         if (m_camera) {
             m_program->SetUniform4x4f("cameraView", m_camera->View());
             m_program->SetUniform4x4f("cameraProjection", m_camera->Projection(m_context->GetWindow()->Width(), m_context->GetWindow()->Height()));
