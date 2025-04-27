@@ -19,7 +19,7 @@ namespace cherrypink {
             RenderingContext *Context();
             void SetProgram(ShaderProgram *context);
             void UseCamera(Camera *camera);
-            void DrawMesh(const TransformComponent &transform, const Mesh &mesh);
+            void DrawMesh(const TransformComponent &transform, const Mesh &mesh, float partialTicks);
             ShaderProgram *CurrentProgram();
         private:
             RenderingContext *m_context;

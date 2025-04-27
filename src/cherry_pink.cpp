@@ -1,6 +1,7 @@
 #include "cherry_pink.hpp"
 #include "component/mesh_system.hpp"
 #include "component/transform_component.hpp"
+#include "component/transform_system.hpp"
 #include "event/mouse_event.hpp"
 #include "event/key_event.hpp"
 #include "event/render_event.hpp"
@@ -47,6 +48,10 @@ namespace cherrypink {
             [] (GLFWwindow *window, double xOffset, double yOffset) {
             s_eventDispatcher.Dispatch(std::make_shared<MouseScrollEvent>(xOffset, yOffset));
         });
+    }
+
+    void registerBaseSystems() {
+        Systems().RegisterSystem<TransformComponent>(std::make_shared<TransformSystem>());
     }
 
     InitializationError Init(WindowParameters windowParameters) {
@@ -120,6 +125,7 @@ namespace cherrypink {
         profiler::End("rendering init");
 
         registerCallbacks();
+        registerBaseSystems();
 
         s_currentScene = &s_scenes.front();
 
@@ -194,7 +200,7 @@ namespace cherrypink {
                 for (auto &[uuid, meshComponent] : CurrentScene().componentRegistry.GetComponents<MeshComponent>()) {
                     if (CurrentScene().componentRegistry.GetComponent<TransformComponent>(uuid) != std::nullopt) {
                         const TransformComponent *transform = *CurrentScene().componentRegistry.GetComponent<TransformComponent>(uuid);
-                        s_renderer->DrawMesh(*transform, meshComponent->mesh);
+                        s_renderer->DrawMesh(*transform, meshComponent->mesh, partialTicks);
                     }
                 }
 

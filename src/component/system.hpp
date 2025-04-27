@@ -18,22 +18,24 @@ class SystemRegistry {
 public:
     template<typename T>
     void RegisterSystem(std::shared_ptr<System<T>> system) {
-        m_systems[std::type_index(typeid(T))] = system;
+        m_systems[std::type_index(typeid(T))].push_back(system);
     }
 
     template<typename T>
     void ProcessComponent(const UUID& entityUuid, T& component) {
         auto it = m_systems.find(std::type_index(typeid(T)));
         if (it != m_systems.end()) {
-            auto processor = std::static_pointer_cast<System<T>>(it->second);
-            processor->ProcessComponent(entityUuid, component);
+            for (auto system : it->second) {
+                auto processor = std::static_pointer_cast<System<T>>(system);
+                processor->ProcessComponent(entityUuid, component);
+            }
         }
     }
 
     void Shutdown() { m_systems.clear(); }
 
 private:
-    std::unordered_map<std::type_index, std::shared_ptr<void>> m_systems;
+    std::unordered_map<std::type_index, std::vector<std::shared_ptr<void>>> m_systems;
 };
 
 }

@@ -32,8 +32,8 @@ namespace cherrypink {
         m_program = nullptr;
     }
 
-    void Renderer::DrawMesh(const TransformComponent &transform, const Mesh &mesh) {
-        m_program->SetUniform4x4f("transform", transform.ModelMatrix());
+    void Renderer::DrawMesh(const TransformComponent &transform, const Mesh &mesh, float partialTicks) {
+        m_program->SetUniform4x4f("transform", transform.ModelMatrix(partialTicks));
         m_context->DrawMesh(mesh);
     }
 
