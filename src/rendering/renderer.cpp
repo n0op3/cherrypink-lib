@@ -1,6 +1,7 @@
 #include "renderer.hpp"
 #include "rendering/context.hpp"
 #include "rendering/shader.hpp"
+#include <glm/ext/matrix_float4x4.hpp>
 
 namespace cherrypink {
 
@@ -27,6 +28,11 @@ namespace cherrypink {
         delete m_program;
         m_context = nullptr;
         m_program = nullptr;
+    }
+
+    void Renderer::DrawMesh(const TransformComponent &transform, const Mesh &mesh) {
+        m_program->SetUniform4x4f("transform", transform.ModelMatrix());
+        m_context->DrawMesh(mesh);
     }
 
     void Renderer::SetContext(RenderingContext *context) { m_context = context; }

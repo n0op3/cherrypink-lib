@@ -4,10 +4,12 @@
 
 #include "component/system.hpp"
 #include "util/uuid.hpp"
+#include <algorithm>
 #include <memory>
 #include <optional>
 #include <typeindex>
 #include <unordered_map>
+#include <vector>
 
 namespace cherrypink {
 
@@ -53,6 +55,21 @@ public:
         }
         return std::nullopt;
     }
+
+    template<typename T>
+        std::vector<std::pair<UUID, T*>> GetComponents() {
+            std::vector<std::pair<UUID, T*>> components;
+            for (auto map : m_components[std::type_index(typeid(T))]) {
+                TypedObjectWrapper<T>* typed_wrapper =
+                    static_cast<TypedObjectWrapper<T>*>(map.second.get());
+
+                if (typed_wrapper) {
+                    components.push_back(std::pair(map.first, &typed_wrapper->component));
+                }
+            }
+
+            return components;
+        }
 
     void updateComponents(SystemRegistry &systems) const {
         for (auto& [type, entity_map] : m_components) {

@@ -1,4 +1,6 @@
 #include "cherry_pink.hpp"
+#include "component/mesh_system.hpp"
+#include "component/transform_component.hpp"
 #include "event/mouse_event.hpp"
 #include "event/key_event.hpp"
 #include "event/render_event.hpp"
@@ -13,6 +15,7 @@
 #include "GLFW/glfw3.h"
 #include <chrono>
 #include <memory>
+#include <optional>
 
 namespace cherrypink {
 
@@ -91,11 +94,12 @@ namespace cherrypink {
 
                 layout(location = 0) in vec3 aPos;
 
+                uniform mat4 transform;
                 uniform mat4 cameraView;
                 uniform mat4 cameraProjection;
 
                 void main() {
-                    gl_Position = cameraProjection * cameraView * vec4(aPos, 1.0);
+                    gl_Position = cameraProjection * cameraView * transform * vec4(aPos, 1.0);
                 }
                 )");
 
@@ -186,6 +190,14 @@ namespace cherrypink {
                 double partialTicks = (double) timeSinceLastTick / s_targetFPS;
                 s_renderer->UseCamera(&CurrentScene().camera);
                 s_renderer->Prepare();
+
+                for (auto &[uuid, meshComponent] : CurrentScene().componentRegistry.GetComponents<MeshComponent>()) {
+                    if (CurrentScene().componentRegistry.GetComponent<TransformComponent>(uuid) != std::nullopt) {
+                        const TransformComponent *transform = *CurrentScene().componentRegistry.GetComponent<TransformComponent>(uuid);
+                        s_renderer->DrawMesh(*transform, meshComponent->mesh);
+                    }
+                }
+
                 s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_renderer->Context(), partialTicks));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
