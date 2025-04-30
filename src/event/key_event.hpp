@@ -1,16 +1,16 @@
 #pragma once
 
-#include "event.hpp"
+#include "event/event.hpp"
+
 namespace cherrypink {
 
-class KeyEvent : public Event {
-  public:
-    KeyEvent(int key, int action, int modifiers);
+    struct KeyEvent : public Event {
+        KeyEvent(int key, int action, int modifiers)
+            : key(key), action(action), modifiers(modifiers) {}
 
-  public:
-    const int key;
-    const int action;
-    const int modifiers;
-};
+        const int key;
+        const int action;
+        const int modifiers;
+    };
 
 } // namespace cherrypink

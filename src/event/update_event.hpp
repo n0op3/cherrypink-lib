@@ -4,9 +4,10 @@
 
 namespace cherrypink {
 
-    class UpdateEvent : public Event {
-        public:
-            UpdateEvent() : Event(EventType::UPDATE_EVENT) {}
+    struct UpdateEvent : public Event {
+        explicit UpdateEvent(double deltaTime) : deltaTime(deltaTime) {}
+        
+        const double deltaTime;
     };
 
 }

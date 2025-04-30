@@ -1,34 +1,30 @@
 #pragma once
 
-#include "event.hpp"
+#include "event/event.hpp"
 
 namespace cherrypink {
 
-class MouseMoveEvent : public Event {
-  public:
-    MouseMoveEvent(double x, double y);
+    struct MouseMoveEvent : public Event {
+        MouseMoveEvent(double x, double y) : x(x), y(y) {}
 
-  public:
-    const double x;
-    const double y;
-};
+        const double x;
+        const double y;
+    };
 
-class MouseButtonEvent : public Event {
-  public:
-    MouseButtonEvent(int mouse_button, int action);
+    struct MouseButtonEvent : public Event {
+        MouseButtonEvent(double button, int action)
+            : button(button), action(action) {}
 
-  public:
-    const double button;
-    const int action;
-};
+        const double button;
+        const int action;
+    };
 
-class MouseScrollEvent : public Event {
-    public:
-        MouseScrollEvent(double xOffset, double yOffset);
+    struct MouseScrollEvent : public Event {
+        MouseScrollEvent(double xOffset, double yOffset)
+            : xOffset(xOffset), yOffset(yOffset) {}
 
-    public:
         const double xOffset;
         const double yOffset;
-};
+    };
 
 } // namespace cherrypink

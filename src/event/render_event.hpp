@@ -5,9 +5,10 @@
 
 namespace cherrypink {
     
-    class RenderEvent : public Event {
-        public:
-            RenderEvent(RenderingContext *context, double partialTicks) : Event(EventType::RENDER_EVENT), context(context), partialTicks(partialTicks) {}
+    struct RenderEvent : public Event {
+            RenderEvent(const RenderingContext *context, double partialTicks)
+                : context(context), partialTicks(partialTicks) {}
+
             const RenderingContext *context;
             const double partialTicks;
     };

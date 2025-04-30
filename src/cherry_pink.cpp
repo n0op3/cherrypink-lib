@@ -36,24 +36,24 @@ namespace cherrypink {
     void registerCallbacks() {
         glfwSetKeyCallback(s_window->Handle(),
             [] (GLFWwindow *window, int key, int scancode, int action, int mods) {
-            s_eventDispatcher.Dispatch(std::make_shared<KeyEvent>(key, action, mods));
+            s_eventDispatcher.Dispatch(std::make_unique<KeyEvent>(key, action, mods));
         });
         glfwSetCursorPosCallback(s_window->Handle(),
             [] (GLFWwindow *window, double x, double y) {
-            s_eventDispatcher.Dispatch(std::make_shared<MouseMoveEvent>(x, y));
+            s_eventDispatcher.Dispatch(std::make_unique<MouseMoveEvent>(x, y));
         });
         glfwSetMouseButtonCallback(s_window->Handle(),
             [] (GLFWwindow *window, int button, int action, int mods) {
-            s_eventDispatcher.Dispatch(std::make_shared<MouseButtonEvent>(button, action));
+            s_eventDispatcher.Dispatch(std::make_unique<MouseButtonEvent>(button, action));
         });
         glfwSetScrollCallback(s_window->Handle(),
             [] (GLFWwindow *window, double xOffset, double yOffset) {
-            s_eventDispatcher.Dispatch(std::make_shared<MouseScrollEvent>(xOffset, yOffset));
+            s_eventDispatcher.Dispatch(std::make_unique<MouseScrollEvent>(xOffset, yOffset));
         });
     }
 
     void registerBaseSystems() {
-        Systems().RegisterSystem<TransformComponent>(std::make_shared<TransformSystem>());
+        Systems().RegisterSystem<TransformComponent>(std::make_unique<TransformSystem>());
     }
 
     InitializationError Init(WindowParameters windowParameters) {
@@ -184,8 +184,9 @@ namespace cherrypink {
 
             if (timeSinceLastTick >= secondInMs / s_updateRate) {
                 profiler::Begin("update");
+                double deltaTime = timeSinceLastTick / (secondInMs / s_updateRate);
                 profiler::Begin("events");
-                s_eventDispatcher.Dispatch(std::make_shared<UpdateEvent>());
+                s_eventDispatcher.Dispatch(std::make_unique<UpdateEvent>(deltaTime));
                 s_eventDispatcher.ProcessQueue();
                 profiler::End("events");
                 update();
@@ -206,7 +207,7 @@ namespace cherrypink {
                     }
                 }
 
-                s_eventDispatcher.DispatchImmediately(std::make_shared<RenderEvent>(s_renderer->Context(), partialTicks));
+                s_eventDispatcher.DispatchImmediately(std::make_unique<RenderEvent>(s_renderer->Context(), partialTicks));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
                 profiler::End("render");
