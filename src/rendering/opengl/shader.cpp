@@ -1,9 +1,12 @@
 #include "glad/glad.h"
 
+#include "rendering/material.hpp"
 #include "rendering/opengl/opengl.hpp"
 #include "spdlog/spdlog.h"
 #include <cstddef>
+#include <cstring>
 #include <glm/gtc/type_ptr.hpp>
+#include <string>
 
 namespace cherrypink {
 
@@ -71,6 +74,10 @@ namespace cherrypink {
 
     void OpenGLShaderProgram::SetUniform4x4f(const char *uniformName, glm::mat4x4 &&value) {
         glUniformMatrix4fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
+    }
+
+    void OpenGLShaderProgram::SetUniformMaterial(const char *uniformName, const ShaderMaterial &&material) {
+        SetUniform4f(std::string(uniformName).append(".color").c_str(), material.color.ToVec());
     }
 
 }

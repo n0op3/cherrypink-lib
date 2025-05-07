@@ -113,6 +113,12 @@ namespace cherrypink {
         OpenGLShader fragment(GL_FRAGMENT_SHADER, R"(
                 #version 330 core
 
+                struct Material {
+                    vec4 color;
+                };
+
+                uniform Material material;
+
                 out vec4 FragColor;
 
                 void main() {
