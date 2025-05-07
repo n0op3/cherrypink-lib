@@ -1,3 +1,11 @@
+includedirs {
+    "src",
+    "lib/glfw-3.4/include",
+    "lib/glad/include",
+    "lib/spdlog/include",
+    "lib/glm"
+}
+
 local glfwDir = path.join(_SCRIPT_DIR, "lib", "glfw-3.4")
 
 filter "system:windows" -- I have no clue why Visual Studio won't compile without this, frick you, Microsoft
@@ -39,14 +47,6 @@ project "CherryPink"
         "src/**",
         "lib/glad/src/**",
         "lib/spdlog/src/**",
-        "lib/glm/glm"
-    }
-
-    includedirs {
-        "src",
-        "lib/glfw-3.4/include",
-        "lib/glad/include",
-        "lib/spdlog/include",
         "lib/glm/glm"
     }
 
