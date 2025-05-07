@@ -12,6 +12,8 @@ namespace cherrypink {
 
     int Mesh::VertexCount() const { return m_vertices.size(); }
 
+    int Mesh::Indices() const { return m_indices.size(); }
+
     int Mesh::VAO() const { return m_vao; }
 
     int Mesh::VBO() const { return m_vbo; }

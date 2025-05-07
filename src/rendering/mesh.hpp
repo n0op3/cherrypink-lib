@@ -10,6 +10,7 @@ namespace cherrypink {
         public:
             Mesh(int vao, int vbo, const std::vector<float> vertices, const std::vector<unsigned int> indices);
             int VertexCount() const;
+            int Indices() const;
             int VAO() const;
             int VBO() const;
         private:
