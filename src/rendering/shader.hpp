@@ -27,7 +27,7 @@ namespace cherrypink {
             virtual void SetUniform2x2f(const char *uniformName, glm::mat2x2 &&value) = 0;
             virtual void SetUniform3x3f(const char *uniformName, glm::mat3x3 &&value) = 0;
             virtual void SetUniform4x4f(const char *uniformName, glm::mat4x4 &&value) = 0;
-            virtual void SetUniformMaterial(const char *uniformName, const ShaderMaterial &&material) = 0;
+            virtual void SetUniformMaterial(const char *uniformName, const ShaderMaterial &material) = 0;
             unsigned int ID() const { return m_id; }
         protected:
             unsigned int m_id;

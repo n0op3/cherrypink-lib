@@ -1,7 +1,8 @@
 #pragma once
 
-#include "glm/ext/vector_float3.hpp"
-#include "glm/ext/vector_float4.hpp"
+#include <glm/ext/vector_float3.hpp>
+#include <glm/ext/vector_float4.hpp>
+
 #include <algorithm>
 namespace cherrypink {
 
@@ -22,6 +23,7 @@ namespace cherrypink {
     class RGBAColor : public RGBColor {
         public:
             RGBAColor() : RGBAColor(0, 0, 0, 1) {}
+            RGBAColor(float r, float g, float b) : RGBColor(r, g, b), m_alpha(1) {}
             RGBAColor(float r, float g, float b, float a) : RGBColor(r, g, b), m_alpha(std::max(0.0f, std::min(a, 1.0f))) {}
             float Alpha() const;
             glm::vec4 ToVec() const { return glm::vec4(Red(), Green(), Blue(), m_alpha); };

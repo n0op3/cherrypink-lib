@@ -8,7 +8,7 @@
 
 namespace cherrypink {
 
-    struct TransformComponent {
+    struct Transform {
         glm::vec3 position;
         glm::vec3 rotation;
         glm::vec3 scale;
@@ -16,7 +16,7 @@ namespace cherrypink {
         glm::vec3 prevRotation;
         glm::vec3 prevScale;
 
-        TransformComponent() {
+        Transform() {
             position = glm::vec3();
             rotation = glm::vec3();
             scale = glm::vec3(1);

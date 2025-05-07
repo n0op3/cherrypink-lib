@@ -5,8 +5,8 @@
 
 namespace cherrypink {
 
-    class TransformSystem : public System<TransformComponent> {
-        void ProcessComponent(const UUID &entityUuid, TransformComponent &transform) override {
+    class TransformSystem : public System<Transform> {
+        void ProcessComponent(const UUID &entityUuid, Transform &transform) override {
             transform.prevPosition = transform.position;
             transform.prevRotation = transform.rotation;
             transform.prevScale = transform.scale;

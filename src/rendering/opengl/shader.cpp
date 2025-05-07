@@ -76,7 +76,7 @@ namespace cherrypink {
         glUniformMatrix4fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
     }
 
-    void OpenGLShaderProgram::SetUniformMaterial(const char *uniformName, const ShaderMaterial &&material) {
+    void OpenGLShaderProgram::SetUniformMaterial(const char *uniformName, const ShaderMaterial &material) {
         SetUniform4f(std::string(uniformName).append(".color").c_str(), material.color.ToVec());
     }
 

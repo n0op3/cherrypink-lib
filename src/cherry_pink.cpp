@@ -7,6 +7,7 @@
 #include "event/render_event.hpp"
 #include "event/update_event.hpp"
 #include "profiling/profiler.hpp"
+#include "rendering/material.hpp"
 #include "rendering/opengl/opengl.hpp"
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
@@ -53,7 +54,7 @@ namespace cherrypink {
     }
 
     void registerBaseSystems() {
-        Systems().RegisterSystem<TransformComponent>(std::make_unique<TransformSystem>());
+        Systems().RegisterSystem<Transform>(std::make_unique<TransformSystem>());
     }
 
     InitializationError Init(WindowParameters windowParameters) {
@@ -122,7 +123,7 @@ namespace cherrypink {
                 out vec4 FragColor;
 
                 void main() {
-                    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+                    FragColor = material.color;
                 }
                 )");
 
@@ -207,8 +208,14 @@ namespace cherrypink {
                 s_renderer->Prepare();
 
                 for (auto &[uuid, meshComponent] : CurrentScene().componentRegistry.GetComponents<MeshComponent>()) {
-                    if (CurrentScene().componentRegistry.GetComponent<TransformComponent>(uuid) != std::nullopt) {
-                        const TransformComponent *transform = *CurrentScene().componentRegistry.GetComponent<TransformComponent>(uuid);
+                    if (CurrentScene().componentRegistry.GetComponent<Transform>(uuid) != std::nullopt) {
+                        const Transform *transform = *CurrentScene().componentRegistry.GetComponent<Transform>(uuid);
+
+                        if (CurrentScene().componentRegistry.GetComponent<ShaderMaterial>(uuid) != std::nullopt) {
+                            const ShaderMaterial &material = *CurrentScene().componentRegistry.GetComponent<ShaderMaterial>(uuid).value();
+                            s_renderer->CurrentProgram()->SetUniformMaterial("material", material);
+                        }
+
                         s_renderer->DrawMesh(*transform, meshComponent->mesh, partialTicks);
                     }
                 }

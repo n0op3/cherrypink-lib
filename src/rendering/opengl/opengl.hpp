@@ -38,7 +38,7 @@ namespace cherrypink {
             void SetUniform2x2f(const char *uniformName, glm::mat2x2 &&value) override;
             void SetUniform3x3f(const char *uniformName, glm::mat3x3 &&value) override;
             void SetUniform4x4f(const char *uniformName, glm::mat4x4 &&value) override;
-            void SetUniformMaterial(const char *uniformName, const ShaderMaterial &&material) override;
+            void SetUniformMaterial(const char *uniformName, const ShaderMaterial &material) override;
     };
 
 }

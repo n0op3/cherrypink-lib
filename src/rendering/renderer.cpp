@@ -1,5 +1,6 @@
 #include "renderer.hpp"
 #include "cherry_pink.hpp"
+#include "component/transform_component.hpp"
 #include "rendering/context.hpp"
 #include "rendering/shader.hpp"
 #include <glm/ext/matrix_float4x4.hpp>
@@ -32,7 +33,7 @@ namespace cherrypink {
         m_program = nullptr;
     }
 
-    void Renderer::DrawMesh(const TransformComponent &transform, const Mesh &mesh, float partialTicks) {
+    void Renderer::DrawMesh(const Transform &transform, const Mesh &mesh, float partialTicks) {
         m_program->SetUniform4x4f("transform", transform.ModelMatrix(partialTicks));
         m_context->DrawMesh(mesh);
     }
