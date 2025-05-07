@@ -12,7 +12,7 @@ namespace cherrypink {
 
     static glm::vec3 s_cameraUp = glm::vec3(0.0, 1.0, 0.0);
 
-    Camera::Camera() :m_fov(45.0), m_near(0.001), m_far(10000.0) {}
+    Camera::Camera() :m_fov(90.0), m_near(0.001), m_far(10000.0) {}
 
     glm::vec3 Camera::Direction() const {
         return glm::normalize(position - target);
