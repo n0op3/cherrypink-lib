@@ -4,6 +4,7 @@
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
 #include "scene/scene.hpp"
+#include <cstdint>
 
 struct GLFWwindow;
 
@@ -37,6 +38,8 @@ namespace cherrypink {
     InitializationError Init(WindowParameters windowParameters);
     bool IsInitialized();
     bool Run();
+    uint64_t Ticks();
+    uint64_t Frames();
     void Stop();
     int UpdateRate();
     void SetUpdateRate(unsigned int updateRate);

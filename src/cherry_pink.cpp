@@ -17,6 +17,7 @@
 #include "GLFW/glfw3.h"
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <unistd.h>
@@ -33,6 +34,8 @@ namespace cherrypink {
     static SystemRegistry s_systems;
     static int s_targetFPS = 60;
     static int s_updateRate = 20;
+    static int s_ticks = 0;
+    static int s_frames = 0;
 
     void registerCallbacks() {
         glfwSetKeyCallback(s_window->Handle(),
@@ -149,6 +152,7 @@ namespace cherrypink {
 
     void update() {
         s_currentScene->componentRegistry.updateComponents(s_systems);
+        s_ticks++;
     }
 
     void shutdown() {
@@ -223,6 +227,7 @@ namespace cherrypink {
                 s_eventDispatcher.DispatchImmediately(std::make_unique<RenderEvent>(s_renderer->Context(), partialTicks));
                 s_renderer->Finish();
                 lastRender = std::chrono::high_resolution_clock::now();
+                s_frames++;
                 profiler::End("render");
             }
 
@@ -237,6 +242,10 @@ namespace cherrypink {
 
     void Stop() {
         s_shouldStop = true;
+    }
+
+    uint64_t Ticks() {
+        return s_ticks;
     }
 
     void SetUpdateRate(unsigned int updateRate) { if (updateRate >= 0) s_updateRate = updateRate; }
