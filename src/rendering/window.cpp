@@ -26,6 +26,10 @@ namespace cherrypink {
         return Size().second;
     }
 
+    float Window::AspectRatio() const {
+        return (float) Width() / Height();
+    }
+
     void Window::SetWidth(unsigned int width) {
         glfwSetWindowSize(m_handle, width, Height());
     }

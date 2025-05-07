@@ -20,6 +20,7 @@ namespace cherrypink {
             void Update();
             int Width() const;
             int Height() const;
+            float AspectRatio() const;
             void SetWidth(unsigned int width);
             void SetHeight(unsigned int height);
             bool IsResizable() const;

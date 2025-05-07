@@ -31,7 +31,7 @@ namespace cherrypink {
     }
 
     glm::mat4 Camera::Projection(float screenWidth, float screenHeight) const {
-        return glm::perspective(glm::radians(m_fov), screenHeight / screenHeight, m_near, m_far);
+        return glm::perspective(glm::radians(m_fov), screenWidth / screenHeight, m_near, m_far);
     }
 
     glm::mat4 Camera::View() const {
