@@ -15,10 +15,10 @@
 namespace cherrypink {
 
 struct ComponentWrapper {
-    virtual void ProcessUpdate(const UUID& entityUuid,
-                               SystemRegistry& registry) = 0;
-    virtual void ProcessRender(const UUID& entityUuid,
-                               SystemRegistry& registry) = 0;
+    virtual void ProcessUpdate(const UUID& entityUuid, SystemRegistry& registry,
+                               double deltaTime) = 0;
+    virtual void ProcessRender(const UUID& entityUuid, SystemRegistry& registry,
+                               double partialTicks) = 0;
 };
 
 template <typename T>
@@ -27,14 +27,14 @@ struct TypedObjectWrapper : ComponentWrapper {
 
     TypedObjectWrapper(T object) : component(std::move(object)) {}
 
-    void ProcessUpdate(const UUID& entityUuid,
-                       SystemRegistry& registry) override {
-        registry.ProcessUpdateComponent(entityUuid, component);
+    void ProcessUpdate(const UUID& entityUuid, SystemRegistry& registry,
+                       double deltaTime) override {
+        registry.ProcessUpdateComponent(entityUuid, component, deltaTime);
     }
 
-    void ProcessRender(const UUID& entityUuid,
-                       SystemRegistry& registry) override {
-        registry.ProcessRenderComponent(entityUuid, component);
+    void ProcessRender(const UUID& entityUuid, SystemRegistry& registry,
+                       double partialTicks) override {
+        registry.ProcessRenderComponent(entityUuid, component, partialTicks);
     }
 };
 
@@ -84,18 +84,19 @@ public:
         return components;
     }
 
-    void updateComponents(SystemRegistry& systems) const {
+    void updateComponents(SystemRegistry& systems, double deltaTime) const {
         for (auto& [type, entity_map] : m_components) {
             for (auto& [entity, wrapper] : entity_map) {
-                wrapper->ProcessUpdate(entity, systems);
+                wrapper->ProcessUpdate(entity, systems, deltaTime);
             }
         }
     }
 
-    void updateRenderComponents(SystemRegistry& systems) const {
+    void updateRenderComponents(SystemRegistry& systems,
+                                double partialTicks) const {
         for (auto& [type, entity_map] : m_components) {
             for (auto& [entity, wrapper] : entity_map) {
-                wrapper->ProcessRender(entity, systems);
+                wrapper->ProcessRender(entity, systems, partialTicks);
             }
         }
     }

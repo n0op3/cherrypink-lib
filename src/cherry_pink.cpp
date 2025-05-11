@@ -5,8 +5,8 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
+#include <execution>
 #include <memory>
-#include <optional>
 
 #include "GLFW/glfw3.h"
 #include "component/render_system.hpp"
@@ -17,7 +17,6 @@
 #include "event/render_event.hpp"
 #include "event/update_event.hpp"
 #include "profiling/profiler.hpp"
-#include "rendering/material.hpp"
 #include "rendering/opengl/opengl.hpp"
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
@@ -157,9 +156,21 @@ InitializationError Init(WindowParameters windowParameters) {
     return NONE;
 }
 
-void update() {
-    s_currentScene->componentRegistry.updateComponents(s_systems);
+void update(double deltaTime) {
+    s_currentScene->componentRegistry.updateComponents(s_systems, deltaTime);
     s_ticks++;
+}
+
+void render(double partialTicks) {
+    s_renderer->UseCamera(&CurrentScene().camera);
+    s_renderer->Prepare();
+
+    s_eventDispatcher.DispatchImmediately(
+        std::make_unique<RenderEvent>(s_renderer->Context(), partialTicks));
+    s_currentScene->componentRegistry.updateRenderComponents(s_systems,
+                                                             partialTicks);
+    s_renderer->Finish();
+    s_frames++;
 }
 
 void shutdown() {
@@ -216,7 +227,7 @@ bool Run() {
             s_eventDispatcher.ProcessQueue();
             profiler::End("events");
 
-            update();
+            update(deltaTime);
 
             lastTick = std::chrono::high_resolution_clock::now();
             profiler::End("update");
@@ -227,16 +238,9 @@ bool Run() {
             double partialTicks =
                 std::min(1.0, (double)timeSinceLastTick / s_targetFPS);
 
-            s_renderer->UseCamera(&CurrentScene().camera);
-            s_renderer->Prepare();
-
-            s_eventDispatcher.DispatchImmediately(std::make_unique<RenderEvent>(
-                s_renderer->Context(), partialTicks));
-            s_currentScene->componentRegistry.updateRenderComponents(s_systems);
-            s_renderer->Finish();
+            render(partialTicks);
 
             lastRender = std::chrono::high_resolution_clock::now();
-            s_frames++;
             profiler::End("render");
         }
 
