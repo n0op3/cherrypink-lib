@@ -1,13 +1,14 @@
 #pragma once
 
-#include "util/uuid.hpp"
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
 
+#include "util/uuid.hpp"
+
 namespace cherrypink {
 
-template<typename T>
+template <typename T>
 
 class System {
 public:
@@ -16,15 +17,20 @@ public:
 
 class SystemRegistry {
 public:
-    template<typename T>
-    void RegisterSystem(std::shared_ptr<System<T>> system) {
-        m_systems[std::type_index(typeid(T))].push_back(system);
+    template <typename T>
+    void RegisterUpdateSystem(std::shared_ptr<System<T>> system) {
+        m_updateSystems[std::type_index(typeid(T))].push_back(system);
     }
 
-    template<typename T>
-    void ProcessComponent(const UUID& entityUuid, T& component) {
-        auto it = m_systems.find(std::type_index(typeid(T)));
-        if (it != m_systems.end()) {
+    template <typename T>
+    void RegisterRenderSystem(std::shared_ptr<System<T>> system) {
+        m_renderSystems[std::type_index(typeid(T))].push_back(system);
+    }
+
+    template <typename T>
+    void ProcessUpdateComponent(const UUID& entityUuid, T& component) {
+        auto it = m_updateSystems.find(std::type_index(typeid(T)));
+        if (it != m_updateSystems.end()) {
             for (auto system : it->second) {
                 auto processor = std::static_pointer_cast<System<T>>(system);
                 processor->ProcessComponent(entityUuid, component);
@@ -32,10 +38,28 @@ public:
         }
     }
 
-    void Shutdown() { m_systems.clear(); }
+    template <typename T>
+    void ProcessRenderComponent(const UUID& entityUuid, T& component) {
+        auto it = m_renderSystems.find(std::type_index(typeid(T)));
+        if (it != m_renderSystems.end()) {
+            for (auto system : it->second) {
+                auto processor = std::static_pointer_cast<System<T>>(system);
+                processor->ProcessComponent(entityUuid, component);
+            }
+        }
+    }
+
+    void Shutdown() {
+        m_updateSystems.clear();
+        m_renderSystems.clear();
+    }
 
 private:
-    std::unordered_map<std::type_index, std::vector<std::shared_ptr<void>>> m_systems;
+    using SystemsMap =
+        std::unordered_map<std::type_index, std::vector<std::shared_ptr<void>>>;
+
+    SystemsMap m_updateSystems;
+    SystemsMap m_renderSystems;
 };
 
-}
+}  // namespace cherrypink
