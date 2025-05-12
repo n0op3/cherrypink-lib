@@ -1,11 +1,9 @@
 #include "cherry_pink.hpp"
 
-#include <unistd.h>
-
 #include <algorithm>
 #include <chrono>
-#include <cstdint>
 #include <memory>
+#include <thread>
 
 #include "GLFW/glfw3.h"
 #include "assets/resource_manager.hpp"
@@ -241,7 +239,8 @@ namespace cherrypink {
                 profiler::End("render");
             }
 
-            sleep(1.0 / std::max(s_updateRate, s_targetFPS) / 2.0);
+            std::this_thread::sleep_for(std::chrono::duration<double>(
+                        1.0 / std::max(s_updateRate, s_targetFPS) / 2.0));
 
             profiler::PrintResults();
         }
