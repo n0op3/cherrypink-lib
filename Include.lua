@@ -1,5 +1,3 @@
-libdirs { "build/bin/%{cfg.buildcfg}" }
-
 includedirs {
     "src",
     "lib/glfw-3.4/include",
@@ -39,7 +37,8 @@ project "CherryPink"
     filter "system:windows"
         prebuildcommands {
             "{COPYFILE} glfw/src/%{cfg.buildcfg}/*glfw* bin/%{cfg.buildcfg}",
-            "{COPYFILE} assimp/src/%{cfg.buildcfg}/*assimp* bin/%{cfg.buildcfg}",
+            "{COPYFILE} assimp/lib/%{cfg.buildcfg}/*assimp* bin/%{cfg.buildcfg}",
+            "{COPYFILE} assimp/contrib/zlib/%{cfg.buildcfg}/*zlibstatic* bin/%{cfg.buildcfg}",
         }
     filter {}
 
@@ -47,6 +46,7 @@ project "CherryPink"
         prebuildcommands {
             "{COPYFILE} glfw/src/*glfw3* bin/%{cfg.buildcfg}",
             "{COPYFILE} assimp/lib/*assimp* bin/%{cfg.buildcfg}",
+            "{COPYFILE} assimp/contrib/zlib/*zlibstatic* bin/%{cfg.buildcfg}",
         }
     filter {}
 
