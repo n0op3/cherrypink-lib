@@ -1,3 +1,5 @@
+libdirs { "build/bin/%{cfg.buildcfg}" }
+
 includedirs {
     "src",
     "lib/glfw-3.4/include",
