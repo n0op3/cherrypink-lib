@@ -5,7 +5,7 @@ includedirs {
     "lib/spdlog/include",
     "lib/glm",
     "lib/assimp/include",
-    "build/include",
+    "build/assimp/include",
 }
 
 filter "system:windows" -- I have no clue why Visual Studio won't compile without this, frick you, Microsoft
