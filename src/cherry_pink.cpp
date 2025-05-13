@@ -201,6 +201,7 @@ namespace cherrypink {
         spdlog::info("Entering the main loop...");
         auto lastTick = std::chrono::high_resolution_clock::now();
         auto lastRender = std::chrono::high_resolution_clock::now();
+        bool slept = false;
         while (!s_window->ShouldClose() && !s_shouldStop) {
             cherrypink::profiler::Begin();
             s_window->Update();
@@ -226,6 +227,8 @@ namespace cherrypink {
 
                 lastTick = std::chrono::high_resolution_clock::now();
                 profiler::End("update");
+
+                slept = false;
             }
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
@@ -237,10 +240,15 @@ namespace cherrypink {
 
                 lastRender = std::chrono::high_resolution_clock::now();
                 profiler::End("render");
+
+                slept = false;
             }
 
-            std::this_thread::sleep_for(std::chrono::duration<double>(
-                        1.0 / std::max(s_updateRate, s_targetFPS) / 2.0));
+            if (!slept) {
+                std::this_thread::sleep_for(std::chrono::duration<double>(
+                            1.0 / std::max(s_updateRate, s_targetFPS) - 20.0));
+                slept = true;
+            }
 
             profiler::PrintResults();
         }
