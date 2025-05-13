@@ -16,7 +16,7 @@ namespace cherrypink {
                                                              // directory during runtime
                 : m_resourceDirectory(resourceDirectory) {}
 
-            std::optional<Mesh> LoadFromFile(const std::filesystem::path &path);
+            std::optional<Mesh *> LoadFromFile(const std::filesystem::path &path);
             void Shutdown();
 
         private:
