@@ -178,6 +178,7 @@ namespace cherrypink {
         s_scenes.clear();
         s_renderer->Shutdown();
         s_eventDispatcher.Shutdown();
+        s_resourceManager.Shutdown();
         s_systems.Shutdown();
         s_initialized = false;
 
