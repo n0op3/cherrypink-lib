@@ -5,6 +5,7 @@ includedirs {
     "lib/spdlog/include",
     "lib/glm",
     "lib/assimp/include",
+    "lib/stb/include",
     "build/assimp/include",
 }
 
