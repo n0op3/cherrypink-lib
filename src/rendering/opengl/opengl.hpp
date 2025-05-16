@@ -32,6 +32,8 @@ namespace cherrypink {
             OpenGLShaderProgram(OpenGLShader *vertexShader, OpenGLShader *fragmentShader);
             void Enable() override;
             void Disable() override;
+            void SetUniformBool(const char *uniformName, bool value) override;
+            void SetUniform1i(const char *uniformName, int value) override;
             void SetUniform1f(const char *uniformName, float value) override;
             void SetUniform2f(const char *uniformName, glm::vec2 &&value) override;
             void SetUniform3f(const char *uniformName, glm::vec3 &&value) override;

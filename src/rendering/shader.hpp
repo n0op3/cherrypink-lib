@@ -20,6 +20,8 @@ namespace cherrypink {
             virtual ~ShaderProgram() {}
             virtual void Enable() = 0;
             virtual void Disable() = 0;
+            virtual void SetUniformBool(const char *uniformName, bool value) = 0;
+            virtual void SetUniform1i(const char *uniformName, int value) = 0;
             virtual void SetUniform1f(const char *uniformName, float value) = 0;
             virtual void SetUniform2f(const char *uniformName, glm::vec2 &&value) = 0;
             virtual void SetUniform3f(const char *uniformName, glm::vec3 &&value) = 0;

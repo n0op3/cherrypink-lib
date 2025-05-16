@@ -1,5 +1,6 @@
 #pragma once
 
+#include "rendering/texture.hpp"
 #include <algorithm>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float4.hpp>
@@ -47,6 +48,9 @@ namespace cherrypink {
 
     struct ShaderMaterial {
         RGBAColor color;
+        Texture *texture;
+
+        bool IsTextured() const { return texture != nullptr; }
     };
 
 } // namespace cherrypink

@@ -109,10 +109,13 @@ namespace cherrypink {
                 #version 330 core
 
                 layout(location = 0) in vec3 aPos;
+                layout(location = 1) in vec2 aTexCoord;
 
                 uniform mat4 transform;
                 uniform mat4 cameraView;
                 uniform mat4 cameraProjection;
+
+                out vec2 FragTexCoord;
 
                 void main() {
                     gl_Position = cameraProjection * cameraView * transform * vec4(aPos, 1.0);
@@ -124,7 +127,11 @@ namespace cherrypink {
 
                 struct Material {
                     vec4 color;
+                    bool isTextured;
+                    sampler2D texture;
                 };
+
+                in vec2 FragTexCoord;
 
                 uniform Material material;
 
@@ -132,6 +139,10 @@ namespace cherrypink {
 
                 void main() {
                     FragColor = material.color;
+
+                    if (material.isTextured) {
+                        FragColor = FragColor * texture(material.texture, FragTexCoord);
+                    }
                 }
                 )");
 

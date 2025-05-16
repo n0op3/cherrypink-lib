@@ -25,7 +25,8 @@ namespace cherrypink {
         }
     }
 
-    OpenGLShaderProgram::OpenGLShaderProgram(OpenGLShader *vertexShader, OpenGLShader *fragmentShader) {
+    OpenGLShaderProgram::OpenGLShaderProgram(OpenGLShader *vertexShader,
+            OpenGLShader *fragmentShader) {
         m_id = glCreateProgram();
         glAttachShader(m_id, vertexShader->ID());
         glAttachShader(m_id, fragmentShader->ID());
@@ -40,44 +41,67 @@ namespace cherrypink {
         }
     }
 
-    void OpenGLShaderProgram::Enable() {
-        glUseProgram(m_id);
+    void OpenGLShaderProgram::Enable() { glUseProgram(m_id); }
+
+    void OpenGLShaderProgram::Disable() { glUseProgram(0); }
+
+    void OpenGLShaderProgram::SetUniformBool(const char *uniformName, bool value) {
+        glUniform1i(glGetUniformLocation(m_id, uniformName), value);
     }
 
-    void OpenGLShaderProgram::Disable() {
-        glUseProgram(0);
+    void OpenGLShaderProgram::SetUniform1i(const char *uniformName, int value) {
+        glUniform1i(glGetUniformLocation(m_id, uniformName), value);
     }
 
     void OpenGLShaderProgram::SetUniform1f(const char *uniformName, float value) {
         glUniform1f(glGetUniformLocation(m_id, uniformName), value);
     }
 
-    void OpenGLShaderProgram::SetUniform2f(const char *uniformName, glm::vec2 &&value) {
+    void OpenGLShaderProgram::SetUniform2f(const char *uniformName,
+            glm::vec2 &&value) {
         glUniform2f(glGetUniformLocation(m_id, uniformName), value.x, value.y);
     }
 
-    void OpenGLShaderProgram::SetUniform3f(const char *uniformName, glm::vec3 &&value) {
-        glUniform3f(glGetUniformLocation(m_id, uniformName), value.x, value.y, value.z);
+    void OpenGLShaderProgram::SetUniform3f(const char *uniformName,
+            glm::vec3 &&value) {
+        glUniform3f(glGetUniformLocation(m_id, uniformName), value.x, value.y,
+                value.z);
     }
 
-    void OpenGLShaderProgram::SetUniform4f(const char *uniformName, glm::vec4 &&value) {
-        glUniform4f(glGetUniformLocation(m_id, uniformName), value.x, value.y, value.z, value.w);
+    void OpenGLShaderProgram::SetUniform4f(const char *uniformName,
+            glm::vec4 &&value) {
+        glUniform4f(glGetUniformLocation(m_id, uniformName), value.x, value.y,
+                value.z, value.w);
     }
 
-    void OpenGLShaderProgram::SetUniform2x2f(const char *uniformName, glm::mat2x2 &&value) {
-        glUniformMatrix2fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
+    void OpenGLShaderProgram::SetUniform2x2f(const char *uniformName,
+            glm::mat2x2 &&value) {
+        glUniformMatrix2fv(glGetUniformLocation(m_id, uniformName), 1, false,
+                glm::value_ptr(value));
     }
 
-    void OpenGLShaderProgram::SetUniform3x3f(const char *uniformName, glm::mat3x3 &&value) {
-        glUniformMatrix3fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
+    void OpenGLShaderProgram::SetUniform3x3f(const char *uniformName,
+            glm::mat3x3 &&value) {
+        glUniformMatrix3fv(glGetUniformLocation(m_id, uniformName), 1, false,
+                glm::value_ptr(value));
     }
 
-    void OpenGLShaderProgram::SetUniform4x4f(const char *uniformName, glm::mat4x4 &&value) {
-        glUniformMatrix4fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(value));
+    void OpenGLShaderProgram::SetUniform4x4f(const char *uniformName,
+            glm::mat4x4 &&value) {
+        glUniformMatrix4fv(glGetUniformLocation(m_id, uniformName), 1, false,
+                glm::value_ptr(value));
     }
 
-    void OpenGLShaderProgram::SetUniformMaterial(const char *uniformName, const ShaderMaterial &material) {
-        SetUniform4f(std::string(uniformName).append(".color").c_str(), material.color.ToVec());
+    void OpenGLShaderProgram::SetUniformMaterial(const char *uniformName,
+            const ShaderMaterial &material) {
+        SetUniform4f(std::string(uniformName).append(".color").c_str(),
+                material.color.ToVec());
+        SetUniformBool(std::string(uniformName).append(".isTextured").c_str(),
+                material.IsTextured());
+
+        if (material.IsTextured())
+            SetUniform1i(std::string(uniformName).append(".texture").c_str(),
+                    material.texture->Id());
     }
 
-}
+} // namespace cherrypink
