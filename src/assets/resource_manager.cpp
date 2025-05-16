@@ -8,12 +8,16 @@
 #include <assimp/scene.h>
 #include <filesystem>
 #include <optional>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include <utility>
 
 namespace cherrypink {
 
     std::optional<Mesh *>
-        ResourceManager::LoadFromFile(const std::filesystem::path &path) {
+        ResourceManager::LoadMesh(const std::filesystem::path &path) {
             if (m_meshCache.contains(path))
                 return &m_meshCache.at(path);
 
@@ -50,6 +54,29 @@ namespace cherrypink {
             m_meshCache.insert(std::make_pair(std::filesystem::path(path), mesh));
 
             return &m_meshCache.at(path);
+        }
+
+    std::optional<Texture *>
+        ResourceManager::LoadTexture(const std::filesystem::path &path) {
+            if (m_textureIndices.contains(path))
+                return &m_textures.at(m_textureIndices.at(path));
+
+            int width = 0;
+            int height = 0;
+            int channels = 3;
+
+            unsigned char *image = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
+            if (image == nullptr)
+                return std::nullopt;
+
+            Texture texture = cherrypink::GetRenderer().Context()->CreateTexture(
+                    {(uint32_t)width, (uint32_t)height, (uint8_t)channels}, image);
+
+            m_textureIndices.insert_or_assign(path, texture.Id());
+            m_textures.insert_or_assign(texture.Id(), texture);
+
+            return &texture;
         }
 
     void ResourceManager::Shutdown() { m_meshCache.clear(); }
