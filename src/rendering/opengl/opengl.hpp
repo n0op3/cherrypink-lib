@@ -4,6 +4,7 @@
 #include "rendering/material.hpp"
 #include "rendering/shader.hpp"
 #include "rendering/texture.hpp"
+#include <vector>
 
 namespace cherrypink {
 
@@ -15,7 +16,7 @@ namespace cherrypink {
             bool Init() override;
             void Clear() override;
             void SwapBuffers() override;
-            Mesh CreateMesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices) override;
+            Mesh CreateMesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices, const std::vector<float> &textureCoords) override;
             Texture CreateTexture(TextureParams params, unsigned char *data) override;
             void DrawMesh(const Mesh &mesh) override;
             void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;

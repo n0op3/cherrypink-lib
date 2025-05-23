@@ -7,6 +7,7 @@
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
 #include "scene/scene.hpp"
+#include <spdlog/spdlog.h>
 
 struct GLFWwindow;
 

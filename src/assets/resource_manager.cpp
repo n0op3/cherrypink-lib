@@ -8,11 +8,10 @@
 #include <assimp/scene.h>
 #include <filesystem>
 #include <optional>
+#include <vector>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-
-#include <utility>
 
 namespace cherrypink {
 
@@ -31,27 +30,34 @@ namespace cherrypink {
                     assimpScene->mMeshes[0]->mNumVertices);
 
             std::vector<float> vertices;
-            for (unsigned int vertexIndex = 0;
-                    vertexIndex < assimpScene->mMeshes[0]->mNumVertices; vertexIndex++) {
-                aiVector3f vertex = assimpScene->mMeshes[0]->mVertices[vertexIndex];
+            for (unsigned int i = 0; i < assimpScene->mMeshes[0]->mNumVertices; i++) {
+                aiVector3f vertex = assimpScene->mMeshes[0]->mVertices[i];
                 vertices.push_back(vertex.x);
                 vertices.push_back(vertex.y);
                 vertices.push_back(vertex.z);
             }
 
             std::vector<unsigned int> indices;
-            for (unsigned int indexIndex = 0;
-                    indexIndex < assimpScene->mMeshes[0]->mNumFaces; indexIndex++) {
-                aiFace *face = &assimpScene->mMeshes[0]->mFaces[indexIndex];
-                for (unsigned int i = 0; i < face->mNumIndices; i++) {
-                    indices.push_back(face->mIndices[i]);
+            for (unsigned int i = 0; i < assimpScene->mMeshes[0]->mNumFaces; i++) {
+                aiFace *face = &assimpScene->mMeshes[0]->mFaces[i];
+
+                for (unsigned int j = 0; j < face->mNumIndices; j++) {
+                    indices.push_back(face->mIndices[j]);
                 }
             }
 
-            Mesh mesh =
-                cherrypink::GetRenderer().Context()->CreateMesh(vertices, indices);
+            std::vector<float> textureCoords(vertices.size() / 3 * 2);
+            if (assimpScene->mMeshes[0]->HasTextureCoords(0)) {
+                textureCoords.reserve(assimpScene->mMeshes[0]->mNumVertices * 2);
+                for (unsigned int i = 0; i < assimpScene->mMeshes[0]->mNumVertices; i++) {
+                    textureCoords.push_back(assimpScene->mMeshes[0]->mTextureCoords[0][i].x);
+                    textureCoords.push_back(assimpScene->mMeshes[0]->mTextureCoords[0][i].y);
+                }
+            }
 
-            m_meshCache.insert(std::make_pair(std::filesystem::path(path), mesh));
+            m_meshCache.emplace(std::filesystem::path(path),
+                    cherrypink::GetRenderer().Context()->CreateMesh(
+                        vertices, indices, textureCoords));
 
             return &m_meshCache.at(path);
         }
