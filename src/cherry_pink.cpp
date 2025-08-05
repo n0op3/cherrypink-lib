@@ -38,50 +38,43 @@ namespace cherrypink {
     static int s_frames = 0;
 
     void registerCallbacks() {
-        glfwSetKeyCallback(s_window->Handle(), [](GLFWwindow *window, int key,
-                    int scancode, int action,
-                    int mods) {
-                s_eventDispatcher.Dispatch(std::make_unique<KeyEvent>(key, action, mods));
-                });
-        glfwSetCursorPosCallback(
-                s_window->Handle(), [](GLFWwindow *window, double x, double y) {
-                s_eventDispatcher.Dispatch(std::make_unique<MouseMoveEvent>(x, y));
-                });
+        glfwSetKeyCallback(s_window->Handle(), [](GLFWwindow *window, int key, int scancode,
+                                                  int action, int mods) {
+            s_eventDispatcher.Dispatch(std::make_unique<KeyEvent>(key, action, mods));
+        });
+        glfwSetCursorPosCallback(s_window->Handle(), [](GLFWwindow *window, double x, double y) {
+            s_eventDispatcher.Dispatch(std::make_unique<MouseMoveEvent>(x, y));
+        });
         glfwSetMouseButtonCallback(
-                s_window->Handle(),
-                [](GLFWwindow *window, int button, int action, int mods) {
-                s_eventDispatcher.Dispatch(
-                        std::make_unique<MouseButtonEvent>(button, action));
-                });
-        glfwSetScrollCallback(s_window->Handle(), [](GLFWwindow *window,
-                    double xOffset, double yOffset) {
-                s_eventDispatcher.Dispatch(
-                        std::make_unique<MouseScrollEvent>(xOffset, yOffset));
-                });
+            s_window->Handle(), [](GLFWwindow *window, int button, int action, int mods) {
+                s_eventDispatcher.Dispatch(std::make_unique<MouseButtonEvent>(button, action));
+            });
+        glfwSetScrollCallback(
+            s_window->Handle(), [](GLFWwindow *window, double xOffset, double yOffset) {
+                s_eventDispatcher.Dispatch(std::make_unique<MouseScrollEvent>(xOffset, yOffset));
+            });
     }
 
     void registerBaseSystems() {
-        Systems().RegisterUpdateSystem<Transform>(
-                std::make_unique<TransformSystem>());
+        Systems().RegisterUpdateSystem<Transform>(std::make_unique<TransformSystem>());
         Systems().RegisterRenderSystem<Mesh>(std::make_unique<RenderingSystem>());
     }
 
     InitializationError Init(WindowParameters windowParameters) {
-        if (s_initialized)
-            return NONE;
+        if (s_initialized) return NONE;
 
 #ifdef DEBUG
 #include "spdlog/common.h"
         spdlog::set_level(spdlog::level::debug);
-#endif // DEBUG
+#endif  // DEBUG
 
         spdlog::info("Initializing the CherryPink runtime!");
 
         profiler::Begin("init");
 
         glfwSetErrorCallback([](int errorCode, const char *description) {
-                spdlog::error("GLFW error {}: {}", errorCode, description);
-                });
+            spdlog::error("GLFW error {}: {}", errorCode, description);
+        });
 
         profiler::Begin("glfw init");
 
@@ -90,8 +83,7 @@ namespace cherrypink {
             return GLFW_FAILED;
         }
 
-        if (!windowParameters.resizable)
-            glfwWindowHint(GLFW_RESIZABLE, false);
+        if (!windowParameters.resizable) glfwWindowHint(GLFW_RESIZABLE, false);
 
         s_window = new Window(windowParameters);
         s_renderer = new Renderer(new OpenGLContext(s_window));
@@ -176,9 +168,8 @@ namespace cherrypink {
         s_renderer->Prepare();
 
         s_eventDispatcher.DispatchImmediately(
-                std::make_unique<RenderEvent>(s_renderer->Context(), partialTicks));
-        s_currentScene->componentRegistry.updateRenderComponents(s_systems,
-                partialTicks);
+            std::make_unique<RenderEvent>(s_renderer->Context(), partialTicks));
+        s_currentScene->componentRegistry.updateRenderComponents(s_systems, partialTicks);
         s_renderer->Finish();
         s_frames++;
     }
@@ -220,11 +211,9 @@ namespace cherrypink {
 
             auto now = std::chrono::high_resolution_clock::now();
             const long timeSinceLastTick =
-                std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTick)
-                .count();
+                std::chrono::duration_cast<std::chrono::milliseconds>(now - lastTick).count();
             const long timeSinceLastRender =
-                std::chrono::duration_cast<std::chrono::milliseconds>(now - lastRender)
-                .count();
+                std::chrono::duration_cast<std::chrono::milliseconds>(now - lastRender).count();
             const double secondInMs = 1000;
 
             if (s_updateRate != 0 && timeSinceLastTick >= secondInMs / s_updateRate) {
@@ -245,8 +234,7 @@ namespace cherrypink {
 
             if (timeSinceLastRender >= secondInMs / s_targetFPS) {
                 profiler::Begin("render");
-                double partialTicks =
-                    std::min(1.0, (double)timeSinceLastTick / s_targetFPS);
+                double partialTicks = std::min(1.0, (double)timeSinceLastTick / s_targetFPS);
 
                 render(partialTicks);
 
@@ -258,7 +246,7 @@ namespace cherrypink {
 
             if (!slept) {
                 std::this_thread::sleep_for(std::chrono::duration<double>(
-                            1.0 / std::max(s_updateRate, s_targetFPS) - 20.0));
+                    1.0 / std::max(s_updateRate, s_targetFPS) - 20.0));
                 slept = true;
             }
 
@@ -276,13 +264,11 @@ namespace cherrypink {
     uint64_t Frames() { return s_frames; }
 
     void SetUpdateRate(unsigned int updateRate) {
-        if (updateRate >= 0)
-            s_updateRate = updateRate;
+        if (updateRate >= 0) s_updateRate = updateRate;
     }
 
     void SetTargetFPS(unsigned int fps) {
-        if (fps >= 0)
-            s_targetFPS = fps;
+        if (fps >= 0) s_targetFPS = fps;
     }
 
     int UpdateRate() { return s_updateRate; }
@@ -303,4 +289,4 @@ namespace cherrypink {
 
     ResourceManager &GetResourceManager() { return s_resourceManager; }
 
-} // namespace cherrypink
+}  // namespace cherrypink

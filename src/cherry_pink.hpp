@@ -1,5 +1,7 @@
 #pragma once
 
+#include <spdlog/spdlog.h>
+
 #include <cstdint>
 
 #include "assets/resource_manager.hpp"
@@ -7,7 +9,6 @@
 #include "rendering/renderer.hpp"
 #include "rendering/window.hpp"
 #include "scene/scene.hpp"
-#include <spdlog/spdlog.h>
 
 struct GLFWwindow;
 
@@ -16,20 +17,18 @@ namespace cherrypink {
 #define ASSERTION_FAILED_EXIT_CODE 712
 
 #ifdef DEBUG
-#define TC_ASSERT(expr, message)                                               \
-    if (!(expr)) {                                                               \
-        spdlog::error("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__,    \
-                message);                                                    \
+#define TC_ASSERT(expr, message)                                                          \
+    if (!(expr)) {                                                                        \
+        spdlog::error("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__, message); \
     }
 #else
 #define TC_ASSERT(expr, message) /* removed */
 #endif                           // DEBUG
 
-#define TC_CRITICAL_ASSERT(expr, message)                                      \
-    if (!(expr)) {                                                               \
-        spdlog::critical("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__, \
-                message);                                                 \
-        exit(ASSERTION_FAILED_EXIT_CODE);                                          \
+#define TC_CRITICAL_ASSERT(expr, message)                                                    \
+    if (!(expr)) {                                                                           \
+        spdlog::critical("ASSERTION FAILED line {} in {}: {}", __LINE__, __FILE__, message); \
+        exit(ASSERTION_FAILED_EXIT_CODE);                                                    \
     }
 
     enum InitializationError { NONE, GLFW_FAILED, GLAD_FAILED, RENDERING_ERROR };
@@ -51,4 +50,4 @@ namespace cherrypink {
     Renderer &GetRenderer();
     ResourceManager &GetResourceManager();
 
-} // namespace cherrypink
+}  // namespace cherrypink
