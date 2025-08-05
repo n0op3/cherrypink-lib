@@ -36,7 +36,7 @@ namespace cherrypink {
         TC_CRITICAL_ASSERT(vertices.size() % 3 == 0, "vertex count is not a multiple of 3");
         TC_CRITICAL_ASSERT(
             textureCoords.size() / 2 == vertices.size() / 3,
-            std::format("texture coord count must be twice the vertex count. V: {}, TC: {}",
+            std::format("texture coord count must be the same as the vertex count. V: {}, TC: {}",
                         vertices.size() / 3, textureCoords.size() / 2));
 
         unsigned int vao = 0, vbo = 0, ebo = 0;
